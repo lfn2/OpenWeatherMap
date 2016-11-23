@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">OpenWeatherMap</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="bundle_latitude">latitude</string>
+    <string name="bundle_longitude">longitude</string>
+
+    <string name="intent_extra_latLng">latLngExtra</string>
+    <string name="intent_extra_cityInfo">cityInfoExtra</string>
+
+    <string name="title_activity_city_list">OpenWeatherMap</string>
+    <string name="title_activity_city_detail">CityDetailActivity</string>
+</resources>
