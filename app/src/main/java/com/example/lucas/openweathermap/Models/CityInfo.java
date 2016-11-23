@@ -3,36 +3,29 @@ package com.example.lucas.openweathermap.Models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-/**
- * Created by Lucas on 23/11/2016.
- */
-
 public class CityInfo implements Parcelable {
 
     private String name;
-    private double maxTemp;
-    private double minTemp;
+    private int maxTemp;
+    private int minTemp;
     private String weather;
 
-    public CityInfo(String name, double maxTemp, double minTemp, String weather) {
+    public CityInfo(String name, int maxTemp, int minTemp, String weather) {
         this.name = name;
         this.maxTemp = maxTemp;
         this.minTemp = minTemp;
         this.weather = weather;
     }
 
-
-
-
     public String getName() {
         return name;
     }
 
-    public double getMaxTemp() {
+    public int getMaxTemp() {
         return maxTemp;
     }
 
-    public double getMinTemp() {
+    public int getMinTemp() {
         return minTemp;
     }
 
@@ -53,16 +46,16 @@ public class CityInfo implements Parcelable {
     //Create CityInfo reading its parcel
     public CityInfo(Parcel parcel) {
         this.name = parcel.readString();
-        this.maxTemp = parcel.readDouble();
-        this.minTemp = parcel.readDouble();
+        this.maxTemp = parcel.readInt();
+        this.minTemp = parcel.readInt();
         this.weather = parcel.readString();
     }
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeString(name);
-        parcel.writeDouble(maxTemp);
-        parcel.writeDouble(minTemp);
+        parcel.writeInt(maxTemp);
+        parcel.writeInt(minTemp);
         parcel.writeString(weather);
     }
 

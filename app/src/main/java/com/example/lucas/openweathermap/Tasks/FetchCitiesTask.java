@@ -7,6 +7,7 @@ import android.widget.ArrayAdapter;
 
 import com.example.lucas.openweathermap.BuildConfig;
 import com.example.lucas.openweathermap.Models.CityInfo;
+import com.example.lucas.openweathermap.Utils.Utils;
 import com.google.android.gms.maps.model.LatLng;
 
 import org.json.JSONArray;
@@ -22,10 +23,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-
-/**
- * Created by Lucas on 22/11/2016.
- */
 
 public class FetchCitiesTask extends AsyncTask<LatLng, Void, List<CityInfo>> {
 
@@ -131,7 +128,10 @@ public class FetchCitiesTask extends AsyncTask<LatLng, Void, List<CityInfo>> {
             double maxTemp = tempObject.getDouble(JSON_MAX);
             double minTemp = tempObject.getDouble(JSON_MIN);
 
-            citiesInfo.add(new CityInfo(name, maxTemp, minTemp, description));
+            int maxTemperature = Utils.convertTemperatureFromKelvin(maxTemp, "metric");
+            int minTemperature = Utils.convertTemperatureFromKelvin(minTemp, "metric");
+
+            citiesInfo.add(new CityInfo(name, maxTemperature, minTemperature, description));
         }
 
         return citiesInfo;
@@ -150,13 +150,16 @@ public class FetchCitiesTask extends AsyncTask<LatLng, Void, List<CityInfo>> {
         final String QUERY_LAT_PARAM = "lat";
         final String QUERY_LON_PARAM = "lon";
         final String QUERY_CNT_PARAM = "cnt";
+        final String QUERY_UNIT_PARAM = "unit";
         final String QUERY_APPID_PARAM = "APPID";
         final int CNT = 15;
+        final String unit = "metric";
 
         Uri uri = Uri.parse(QUERY_BASE_URL).buildUpon()
                 .appendQueryParameter(QUERY_LAT_PARAM, Double.toString(latitude))
                 .appendQueryParameter(QUERY_LON_PARAM, Double.toString(longitude))
                 .appendQueryParameter(QUERY_CNT_PARAM, Integer.toString(CNT))
+                .appendQueryParameter(QUERY_UNIT_PARAM, unit)
                 .appendQueryParameter(QUERY_APPID_PARAM, BuildConfig.OPEN_WEATHER_MAP_API_KEY)
                 .build();
 
