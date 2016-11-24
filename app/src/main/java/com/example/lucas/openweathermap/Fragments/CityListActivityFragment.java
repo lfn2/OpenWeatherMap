@@ -7,21 +7,28 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.example.lucas.openweathermap.Activities.CityDetailActivity;
+import com.example.lucas.openweathermap.Adapter.CityListAdapter;
 import com.example.lucas.openweathermap.Models.CityInfo;
 import com.example.lucas.openweathermap.R;
 import com.example.lucas.openweathermap.Tasks.FetchCitiesTask;
 import com.google.android.gms.maps.model.LatLng;
+
+import java.util.ArrayList;
 
 /**
  * A placeholder fragment containing a simple view.
  */
 public class CityListActivityFragment extends Fragment {
 
-    private ArrayAdapter<CityInfo> cityListAdapter;
+    private LinearLayout progressBar;
+    private ListView listView;
+
+    private CityListAdapter cityListAdapter;
+    private ArrayList<CityInfo> cityInfos;
 
     private LatLng coordinates;
 
@@ -40,13 +47,16 @@ public class CityListActivityFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_city_list, container, false);
 
+        progressBar = (LinearLayout)  rootView.findViewById(R.id.listview_progressBar);
+
         Intent intent = getActivity().getIntent();
         if (intent != null && intent.hasExtra(getString(R.string.intent_extra_latLng))) {
             coordinates = intent.getParcelableExtra(getString(R.string.intent_extra_latLng));
 
-            cityListAdapter = new ArrayAdapter<>(this.getActivity(), R.layout.list_item_city, R.id.list_item_city_textview);
+            cityInfos = new ArrayList<>();
+            cityListAdapter = new CityListAdapter(this.getActivity(), R.layout.list_item_city, cityInfos);
 
-            ListView listView = (ListView) rootView.findViewById(R.id.listview_cityList);
+            listView = (ListView) rootView.findViewById(R.id.listview_cityList);
             listView.setAdapter(cityListAdapter);
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
@@ -67,7 +77,7 @@ public class CityListActivityFragment extends Fragment {
     }
 
     private void fetchCitiesInfo() {
-        FetchCitiesTask fetchCitiesTask = new FetchCitiesTask(this.cityListAdapter);
+        FetchCitiesTask fetchCitiesTask = new FetchCitiesTask(getContext(), this.cityListAdapter, progressBar, listView);
 
         fetchCitiesTask.execute(coordinates);
     }

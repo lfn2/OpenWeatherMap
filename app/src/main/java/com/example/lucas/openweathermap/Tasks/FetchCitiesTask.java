@@ -1,13 +1,20 @@
 package com.example.lucas.openweathermap.Tasks;
 
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 
+import com.example.lucas.openweathermap.Activities.MainActivity;
 import com.example.lucas.openweathermap.BuildConfig;
 import com.example.lucas.openweathermap.Models.CityInfo;
-import com.example.lucas.openweathermap.Utils.Utils;
 import com.google.android.gms.maps.model.LatLng;
 
 import org.json.JSONArray;
@@ -28,25 +35,56 @@ public class FetchCitiesTask extends AsyncTask<LatLng, Void, List<CityInfo>> {
 
     private final String LOG_TAG = FetchCitiesTask.class.getSimpleName();
 
+    private Context context;
+    private LinearLayout progressBar;
+    private ListView listView;
     private ArrayAdapter<CityInfo> cityListAdapter;
 
-    public FetchCitiesTask(ArrayAdapter<CityInfo> cityListAdapter) {
+    public FetchCitiesTask(Context context, ArrayAdapter<CityInfo> cityListAdapter, LinearLayout progressBar, ListView listView) {
+        this.context = context;
         this.cityListAdapter = cityListAdapter;
+        this.progressBar = progressBar;
+        this.listView = listView;
+    }
+
+    @Override
+    protected void onPreExecute() {
+        progressBar.setVisibility(View.VISIBLE);
+        listView.setVisibility(View.GONE);
+
+        super.onPreExecute();
     }
 
     @Override
     protected void onPostExecute(List<CityInfo> result) {
-        if (result != null) {
+        if (result == null || result.size() == 0) {
+            showErrorDialog();
+        }
+        else {
             cityListAdapter.clear();
             cityListAdapter.addAll(result);
+
+            progressBar.setVisibility(View.GONE);
+            listView.setVisibility(View.VISIBLE);
         }
     }
 
+    private void showErrorDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setMessage("Couldn't find cities");
+        builder.setPositiveButton("Back", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int w) {
+                Intent intent = new Intent(context, MainActivity.class);
+                context.startActivity(intent);
+            }
+        });
+
+        builder.create().show();
+    }
+
+
     @Override
     protected List<CityInfo> doInBackground(LatLng... coordinates) {
-        if (coordinates.length != 1)
-            return null; //something wrong is not right
-
         double latitude = coordinates[0].latitude;
         double longitude = coordinates[0].longitude;
 
@@ -63,8 +101,6 @@ public class FetchCitiesTask extends AsyncTask<LatLng, Void, List<CityInfo>> {
 
             InputStream inputStream = connection.getInputStream();
             StringBuffer buffer = new StringBuffer();
-            if (inputStream == null)
-                return null;
 
             reader = new BufferedReader(new InputStreamReader(inputStream));
             String line;
@@ -72,14 +108,10 @@ public class FetchCitiesTask extends AsyncTask<LatLng, Void, List<CityInfo>> {
                 buffer.append(line + "\n");
             }
 
-            if (buffer.length() == 0)
-                return null;
-
             citiesForecastJSON = buffer.toString();
             Log.e(LOG_TAG, "Request Finished");
-        } catch (IOException e) {
-            Log.e(LOG_TAG, e.getMessage(), e);
-            return null;
+        } catch (Exception e) {
+            return errorHandling(e);
         } finally {
             if (connection != null)
                 connection.disconnect();
@@ -88,7 +120,7 @@ public class FetchCitiesTask extends AsyncTask<LatLng, Void, List<CityInfo>> {
                 try {
                     reader.close();
                 } catch (IOException e) {
-                    Log.e(LOG_TAG, e.getMessage(), e);
+                    return errorHandling(e);
                 }
         }
 
@@ -102,14 +134,26 @@ public class FetchCitiesTask extends AsyncTask<LatLng, Void, List<CityInfo>> {
         return citiesInfo;
     }
 
+    private List<CityInfo> errorHandling(Exception e) {
+        Log.e(LOG_TAG, e.getMessage(), e);
+
+        return null;
+    }
+
     private List<CityInfo> getCitiesDataFromJSON(String jsonStr) throws JSONException {
         final String JSON_LIST = "list";
         final String JSON_NAME = "name";
         final String JSON_MAIN = "main";
+        final String JSON_TEMP = "temp";
         final String JSON_MAX = "temp_max";
         final String JSON_MIN = "temp_min";
         final String JSON_WEATHER = "weather";
         final String JSON_DESCRIPTION = "description";
+        final String JSON_ID = "id";
+        final String JSON_HUMIDITY = "humidity";
+        final String JSON_WIND_SPEED = "speed";
+        final String JSON_WIND_DIRECTION = "deg";
+        final String JSON_WIND = "wind";
 
         JSONObject json = new JSONObject(jsonStr);
         JSONArray citiesForecast = json.getJSONArray(JSON_LIST);
@@ -122,16 +166,19 @@ public class FetchCitiesTask extends AsyncTask<LatLng, Void, List<CityInfo>> {
             String name = cityForecast.getString(JSON_NAME);
 
             JSONObject weatherObject = cityForecast.getJSONArray(JSON_WEATHER).getJSONObject(0);
-            String description = weatherObject.getString(JSON_DESCRIPTION);
+            String weatherDescription = weatherObject.getString(JSON_DESCRIPTION);
+            int weatherId = weatherObject.getInt(JSON_ID);
+
+            JSONObject windObject = cityForecast.getJSONObject(JSON_WIND);
+            double windSpeed = windObject.getDouble(JSON_WIND_SPEED);
 
             JSONObject tempObject = cityForecast.getJSONObject(JSON_MAIN);
+            double temp = tempObject.getDouble(JSON_TEMP);
             double maxTemp = tempObject.getDouble(JSON_MAX);
             double minTemp = tempObject.getDouble(JSON_MIN);
+            int humidity = tempObject.getInt(JSON_HUMIDITY);
 
-            int maxTemperature = Utils.convertTemperatureFromKelvin(maxTemp, "metric");
-            int minTemperature = Utils.convertTemperatureFromKelvin(minTemp, "metric");
-
-            citiesInfo.add(new CityInfo(name, maxTemperature, minTemperature, description));
+            citiesInfo.add(new CityInfo(name, temp, maxTemp, minTemp, weatherDescription, weatherId, windSpeed, humidity));
         }
 
         return citiesInfo;
@@ -140,6 +187,7 @@ public class FetchCitiesTask extends AsyncTask<LatLng, Void, List<CityInfo>> {
     private HttpURLConnection createConnection(URL url) throws IOException {
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("GET");
+        connection.setReadTimeout(10000);
         connection.connect();
 
         return connection;

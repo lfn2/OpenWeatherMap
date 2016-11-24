@@ -18,6 +18,14 @@ public class CityDetailActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+//        Intent intent = getIntent();
+//        if (intent != null && intent.hasExtra(getString(R.string.intent_extra_cityInfo))) {
+//            CityInfo cityInfo = intent.getParcelableExtra(getString(R.string.intent_extra_cityInfo));
+//
+//            if (cityInfo != null)
+//                getSupportActionBar().setTitle(cityInfo.getName());
+//        }
     }
 
     @Override

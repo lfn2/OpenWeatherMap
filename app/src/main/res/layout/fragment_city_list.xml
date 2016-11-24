@@ -8,8 +8,23 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="@color/lightest_blue"
     tools:context="com.example.lucas.openweathermap.Fragments.CityListActivityFragment"
     tools:showIn="@layout/activity_city_list">
+
+    <LinearLayout
+        android:id="@+id/listview_progressBar"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone" >
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+        </ProgressBar>
+    </LinearLayout>
 
     <ListView
         android:id="@+id/listview_cityList"

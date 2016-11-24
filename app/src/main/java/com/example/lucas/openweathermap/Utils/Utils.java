@@ -1,17 +1,90 @@
 package com.example.lucas.openweathermap.Utils;
 
+import android.content.Context;
+
+import com.example.lucas.openweathermap.R;
+
 public class Utils {
 
-    public static int convertTemperatureFromKelvin(double temperature, String unit) {
-        int convertedTemp = 0;
+    public static String formatTemperature(Context context, double temperature, boolean isMetric) {
+        double temp;
 
-        switch (unit) {
-            case "metric":
-                convertedTemp = (int) Math.round(temperature - 273.15);
-                break;
+        if (isMetric) {
+            temp = temperature - 273.15;
+        }
+        else {
+            temp = (temperature * (9/5)) - 459.67;
         }
 
-        return convertedTemp;
+        return context.getString(R.string.format_temperature, temp);
+    }
+
+    public static String formatWind(Context context, double windSpeed, boolean isMetric) {
+        int windFormat;
+
+        if (isMetric)
+            windFormat = R.string.format_wind_kmh;
+        else {
+            windFormat = R.string.format_wind_mph;
+            windSpeed = windSpeed / 1.609344d;
+        }
+
+        return String.format(context.getString(windFormat), windSpeed);
+    }
+
+    public static int getWeatherIcon(int weatherId) {
+        if (weatherId >= 200 && weatherId <= 232) {
+            return R.drawable.ic_storm;
+        } else if (weatherId >= 300 && weatherId <= 321) {
+            return R.drawable.ic_light_rain;
+        } else if (weatherId >= 500 && weatherId <= 504) {
+            return R.drawable.ic_rain;
+        } else if (weatherId == 511) {
+            return R.drawable.ic_snow;
+        } else if (weatherId >= 520 && weatherId <= 531) {
+            return R.drawable.ic_rain;
+        } else if (weatherId >= 600 && weatherId <= 622) {
+            return R.drawable.ic_snow;
+        } else if (weatherId >= 701 && weatherId <= 761) {
+            return R.drawable.ic_fog;
+        } else if (weatherId == 761 || weatherId == 781) {
+            return R.drawable.ic_storm;
+        } else if (weatherId == 800) {
+            return R.drawable.ic_clear;
+        } else if (weatherId == 801) {
+            return R.drawable.ic_light_clouds;
+        } else if (weatherId >= 802 && weatherId <= 804) {
+            return R.drawable.ic_cloudy;
+        }
+
+        return -1;
+    }
+
+    public static int getWeatherArt(int weatherId) {
+        if (weatherId >= 200 && weatherId <= 232) {
+            return R.drawable.art_storm;
+        } else if (weatherId >= 300 && weatherId <= 321) {
+            return R.drawable.art_light_rain;
+        } else if (weatherId >= 500 && weatherId <= 504) {
+            return R.drawable.art_rain;
+        } else if (weatherId == 511) {
+            return R.drawable.art_snow;
+        } else if (weatherId >= 520 && weatherId <= 531) {
+            return R.drawable.art_rain;
+        } else if (weatherId >= 600 && weatherId <= 622) {
+            return R.drawable.art_snow;
+        } else if (weatherId >= 701 && weatherId <= 761) {
+            return R.drawable.art_fog;
+        } else if (weatherId == 761 || weatherId == 781) {
+            return R.drawable.art_storm;
+        } else if (weatherId == 800) {
+            return R.drawable.art_clear;
+        } else if (weatherId == 801) {
+            return R.drawable.art_light_clouds;
+        } else if (weatherId >= 802 && weatherId <= 804) {
+            return R.drawable.art_clouds;
+        }
+        return -1;
     }
 
 }

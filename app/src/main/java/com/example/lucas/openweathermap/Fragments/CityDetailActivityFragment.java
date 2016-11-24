@@ -6,15 +6,27 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.example.lucas.openweathermap.Models.CityInfo;
 import com.example.lucas.openweathermap.R;
+import com.example.lucas.openweathermap.Utils.Utils;
 
 /**
  * A placeholder fragment containing a simple view.
  */
 public class CityDetailActivityFragment extends Fragment {
+
+    private ScrollView scrollView;
+    private TextView cityNameView;
+    private TextView maxTempView;
+    private TextView minTempView;
+    private ImageView iconView;
+    private TextView weatherView;
+    private TextView humidityView;
+    private TextView windView;
 
     public CityDetailActivityFragment() {
         setHasOptionsMenu(true);
@@ -27,10 +39,24 @@ public class CityDetailActivityFragment extends Fragment {
 
         Intent intent = getActivity().getIntent();
         if (intent != null && intent.hasExtra(getString(R.string.intent_extra_cityInfo))) {
-            CityInfo cityInfo = intent.getParcelableExtra(getString(R.string.intent_extra_cityInfo));
-            TextView textView = (TextView) rootView.findViewById(R.id.textview_cityDetail);
+            scrollView = (ScrollView) rootView.findViewById(R.id.detail_scrollView);
+            cityNameView = (TextView) rootView.findViewById(R.id.detail_cityName_textview);
+            maxTempView = (TextView) rootView.findViewById(R.id.detail_maxTemp_textview);
+            minTempView = (TextView) rootView.findViewById(R.id.detail_minTemp_textview);
+            iconView = (ImageView) rootView.findViewById(R.id.detail_icon);
+            weatherView = (TextView) rootView.findViewById(R.id.detail_weather_textview);
+            humidityView = (TextView) rootView.findViewById(R.id.detail_humidity_textview);
+            windView = (TextView) rootView.findViewById(R.id.detail_wind_textview);
 
-            fillTextView(cityInfo, textView);
+            CityInfo cityInfo = intent.getParcelableExtra(getString(R.string.intent_extra_cityInfo));
+
+            cityNameView.setText(cityInfo.getName());
+            maxTempView.setText(Utils.formatTemperature(getActivity(), cityInfo.getMaxTemp(), true));
+            minTempView.setText(Utils.formatTemperature(getActivity(), cityInfo.getMinTemp(), true));
+            iconView.setImageResource(Utils.getWeatherArt(cityInfo.getWeatherId()));
+            weatherView.setText(cityInfo.getWeather());
+            humidityView.setText(getActivity().getString(R.string.format_humidity, (float) cityInfo.getHumidity()));
+            windView.setText(Utils.formatWind(getActivity(), cityInfo.getWindSpeed(), true));
         }
 
         return rootView;

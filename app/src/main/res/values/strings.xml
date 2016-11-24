@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_name">OpenWeatherMap</string>
     <string name="action_settings">Settings</string>
 
@@ -8,6 +8,11 @@
     <string name="intent_extra_latLng">latLngExtra</string>
     <string name="intent_extra_cityInfo">cityInfoExtra</string>
 
-    <string name="title_activity_city_list">OpenWeatherMap</string>
-    <string name="title_activity_city_detail">CityDetailActivity</string>
+    <string name="title_activity_city_list">Cities</string>
+    <string name="title_activity_city_detail">Details</string>
+
+    <string name="format_temperature"><xliff:g id="temp">%1.0f</xliff:g>\u00B0</string>
+    <string name="format_humidity">Humidity: <xliff:g id="humidity">%1.0f</xliff:g> %%</string>
+    <string name="format_wind_mph">Wind: <xliff:g id="speed">%1$1.0f</xliff:g> mph</string>
+    <string name="format_wind_kmh">Wind: <xliff:g id="speed">%1$1.0f</xliff:g> km/h</string>
 </resources>
