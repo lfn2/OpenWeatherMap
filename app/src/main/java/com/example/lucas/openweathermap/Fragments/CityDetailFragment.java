@@ -1,9 +1,15 @@
 package com.example.lucas.openweathermap.Fragments;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.MenuItemCompat;
+import android.support.v7.widget.ShareActionProvider;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -26,6 +32,8 @@ public class CityDetailFragment extends Fragment {
     private TextView humidityView;
     private TextView windView;
 
+    private CityInfo cityInfo;
+
     public CityDetailFragment() {
         setHasOptionsMenu(true);
     }
@@ -45,7 +53,7 @@ public class CityDetailFragment extends Fragment {
             humidityView = (TextView) rootView.findViewById(R.id.detail_humidity_textview);
             windView = (TextView) rootView.findViewById(R.id.detail_wind_textview);
 
-            CityInfo cityInfo = intent.getParcelableExtra(getString(R.string.intent_extra_cityInfo));
+            cityInfo = intent.getParcelableExtra(getString(R.string.intent_extra_cityInfo));
 
             boolean isMetric = Utils.isMetric(getContext());
 
@@ -59,6 +67,41 @@ public class CityDetailFragment extends Fragment {
         }
 
         return rootView;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_city_detail, menu);
+
+        MenuItem menuItem = menu.findItem(R.id.action_share);
+
+        ShareActionProvider shareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(menuItem);
+
+        if (shareActionProvider != null )
+            shareActionProvider.setShareIntent(createShareForecastIntent());
+    }
+
+    /**
+     * Creates the forecast sharing intent
+     * @return the forecast sharing intent
+     */
+    private Intent createShareForecastIntent() {
+        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+        shareIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_DOCUMENT);
+        shareIntent.setType("text/plain");
+
+        String cityName = cityInfo.getName();
+        String weather = cityInfo.getWeather();
+        Context context = getContext();
+        String minTemp = Utils.formatTemperature(context, cityInfo.getMinTemp(), Utils.isMetric(context));
+        String maxTemp = Utils.formatTemperature(context, cityInfo.getMaxTemp(), Utils.isMetric(context));
+
+        String shareString = context.getString(R.string.share_string);
+
+        shareIntent.putExtra(Intent.EXTRA_TEXT,
+                String.format(shareString, cityName, weather, minTemp, maxTemp));
+
+        return shareIntent;
     }
 
 }

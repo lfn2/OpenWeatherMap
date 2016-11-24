@@ -1,6 +1,10 @@
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="app_name">OpenWeatherMap</string>
+    <string name="app_name">OpenWeatherApp</string>
     <string name="action_settings">Settings</string>
+    <string name="action_share">Share</string>
+
+    <!--share string-->
+    <string name="share_string">Today\'s weather for %1$s: %2$s, %3$s - %4$s  #OpenWeatherApp</string>
 
     <!--bundle extras-->
     <string name="bundle_latitude">latitude</string>
