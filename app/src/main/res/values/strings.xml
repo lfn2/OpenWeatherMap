@@ -2,17 +2,50 @@
     <string name="app_name">OpenWeatherMap</string>
     <string name="action_settings">Settings</string>
 
+    <!--bundle extras-->
     <string name="bundle_latitude">latitude</string>
     <string name="bundle_longitude">longitude</string>
 
+    <!--intent extras-->
     <string name="intent_extra_latLng">latLngExtra</string>
     <string name="intent_extra_cityInfo">cityInfoExtra</string>
 
+    <!--activity titles-->
     <string name="title_activity_city_list">Cities</string>
     <string name="title_activity_city_detail">Details</string>
+    <string name="title_activity_settings">SettingsActivity</string>
 
+    <!--unit formatting-->
     <string name="format_temperature"><xliff:g id="temp">%1.0f</xliff:g>\u00B0</string>
     <string name="format_humidity">Humidity: <xliff:g id="humidity">%1.0f</xliff:g> %%</string>
     <string name="format_wind_mph">Wind: <xliff:g id="speed">%1$1.0f</xliff:g> mph</string>
     <string name="format_wind_kmh">Wind: <xliff:g id="speed">%1$1.0f</xliff:g> km/h</string>
+
+    <!--settings-->
+    <string name="title_general_category">General</string>
+    <string name="key_general_category">generalPreferences</string>
+
+    <string name="title_preference_unit">Unit</string>
+    <string name="key_preference_unit">unitPreference</string>
+
+    <string name="unit_metric_title">Metric</string>
+    <string name="unit_metric_value">metric</string>
+
+    <string name="unit_imperial_title">Imperial</string>
+    <string name="unit_imperial_value">imperial</string>
+
+    <!--metric as default unit-->
+    <string name="default_unit_preference_value">metric</string>
+
+    <string-array name="title_units">
+        <item>@string/unit_metric_title</item>
+        <item>@string/unit_imperial_title</item>
+    </string-array>
+
+    <string-array name="value_units">
+        <item>@string/unit_metric_value</item>
+        <item>@string/unit_imperial_value</item>
+    </string-array>
+
+
 </resources>

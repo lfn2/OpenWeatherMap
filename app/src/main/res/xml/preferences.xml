@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory
+        android:title="@string/title_general_category"
+        android:key="@string/key_general_category">
+
+        <ListPreference
+            android:title="@string/title_preference_unit"
+            android:key="@string/key_preference_unit"
+            android:entries="@array/title_units"
+            android:entryValues="@array/value_units"
+            android:defaultValue="@string/default_unit_preference_value"
+            android:summary="%s" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

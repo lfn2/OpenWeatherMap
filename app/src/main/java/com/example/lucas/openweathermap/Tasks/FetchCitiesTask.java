@@ -31,6 +31,9 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class to fetch the nearby cities weather information from the OWM API
+ */
 public class FetchCitiesTask extends AsyncTask<LatLng, Void, List<CityInfo>> {
 
     private final String LOG_TAG = FetchCitiesTask.class.getSimpleName();
@@ -69,20 +72,6 @@ public class FetchCitiesTask extends AsyncTask<LatLng, Void, List<CityInfo>> {
         }
     }
 
-    private void showErrorDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setMessage("Couldn't find cities");
-        builder.setPositiveButton("Back", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int w) {
-                Intent intent = new Intent(context, MainActivity.class);
-                context.startActivity(intent);
-            }
-        });
-
-        builder.create().show();
-    }
-
-
     @Override
     protected List<CityInfo> doInBackground(LatLng... coordinates) {
         double latitude = coordinates[0].latitude;
@@ -94,8 +83,6 @@ public class FetchCitiesTask extends AsyncTask<LatLng, Void, List<CityInfo>> {
 
         try {
             URL url = createQuery(latitude, longitude);
-
-            Log.e(LOG_TAG, "Requesting API...");
 
             connection = createConnection(url);
 
@@ -109,7 +96,6 @@ public class FetchCitiesTask extends AsyncTask<LatLng, Void, List<CityInfo>> {
             }
 
             citiesForecastJSON = buffer.toString();
-            Log.e(LOG_TAG, "Request Finished");
         } catch (Exception e) {
             return errorHandling(e);
         } finally {
@@ -128,7 +114,7 @@ public class FetchCitiesTask extends AsyncTask<LatLng, Void, List<CityInfo>> {
         try {
             citiesInfo = getCitiesDataFromJSON(citiesForecastJSON);
         } catch (JSONException e) {
-            e.printStackTrace();
+            return errorHandling(e);
         }
 
         return citiesInfo;
@@ -140,6 +126,22 @@ public class FetchCitiesTask extends AsyncTask<LatLng, Void, List<CityInfo>> {
         return null;
     }
 
+    private void showErrorDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setMessage("Couldn't find cities");
+        builder.setPositiveButton("Back", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int w) {
+                Intent intent = new Intent(context, MainActivity.class);
+                context.startActivity(intent);
+            }
+        });
+
+        builder.create().show();
+    }
+
+    /**
+     * Parses the JSON information and returns a list of CityInfo
+     */
     private List<CityInfo> getCitiesDataFromJSON(String jsonStr) throws JSONException {
         final String JSON_LIST = "list";
         final String JSON_NAME = "name";
@@ -184,6 +186,9 @@ public class FetchCitiesTask extends AsyncTask<LatLng, Void, List<CityInfo>> {
         return citiesInfo;
     }
 
+    /**
+     * Creates a connection from an url
+     */
     private HttpURLConnection createConnection(URL url) throws IOException {
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("GET");
@@ -193,6 +198,9 @@ public class FetchCitiesTask extends AsyncTask<LatLng, Void, List<CityInfo>> {
         return connection;
     }
 
+    /**
+     * Creates the query for the OWM API
+     */
     private URL createQuery(double latitude, double longitude) throws MalformedURLException {
         final String QUERY_BASE_URL = "http://api.openweathermap.org/data/2.5/find?";
         final String QUERY_LAT_PARAM = "lat";

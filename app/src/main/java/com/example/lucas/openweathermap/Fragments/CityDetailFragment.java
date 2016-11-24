@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.example.lucas.openweathermap.Models.CityInfo;
@@ -17,9 +16,8 @@ import com.example.lucas.openweathermap.Utils.Utils;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class CityDetailActivityFragment extends Fragment {
+public class CityDetailFragment extends Fragment {
 
-    private ScrollView scrollView;
     private TextView cityNameView;
     private TextView maxTempView;
     private TextView minTempView;
@@ -28,7 +26,7 @@ public class CityDetailActivityFragment extends Fragment {
     private TextView humidityView;
     private TextView windView;
 
-    public CityDetailActivityFragment() {
+    public CityDetailFragment() {
         setHasOptionsMenu(true);
     }
 
@@ -39,7 +37,6 @@ public class CityDetailActivityFragment extends Fragment {
 
         Intent intent = getActivity().getIntent();
         if (intent != null && intent.hasExtra(getString(R.string.intent_extra_cityInfo))) {
-            scrollView = (ScrollView) rootView.findViewById(R.id.detail_scrollView);
             cityNameView = (TextView) rootView.findViewById(R.id.detail_cityName_textview);
             maxTempView = (TextView) rootView.findViewById(R.id.detail_maxTemp_textview);
             minTempView = (TextView) rootView.findViewById(R.id.detail_minTemp_textview);
@@ -50,25 +47,18 @@ public class CityDetailActivityFragment extends Fragment {
 
             CityInfo cityInfo = intent.getParcelableExtra(getString(R.string.intent_extra_cityInfo));
 
+            boolean isMetric = Utils.isMetric(getContext());
+
             cityNameView.setText(cityInfo.getName());
-            maxTempView.setText(Utils.formatTemperature(getActivity(), cityInfo.getMaxTemp(), true));
-            minTempView.setText(Utils.formatTemperature(getActivity(), cityInfo.getMinTemp(), true));
+            maxTempView.setText(Utils.formatTemperature(getActivity(), cityInfo.getMaxTemp(), isMetric));
+            minTempView.setText(Utils.formatTemperature(getActivity(), cityInfo.getMinTemp(), isMetric));
             iconView.setImageResource(Utils.getWeatherArt(cityInfo.getWeatherId()));
             weatherView.setText(cityInfo.getWeather());
             humidityView.setText(getActivity().getString(R.string.format_humidity, (float) cityInfo.getHumidity()));
-            windView.setText(Utils.formatWind(getActivity(), cityInfo.getWindSpeed(), true));
+            windView.setText(Utils.formatWind(getActivity(), cityInfo.getWindSpeed(), isMetric));
         }
 
         return rootView;
     }
 
-    private void fillTextView(CityInfo cityInfo, TextView textView) {
-        StringBuilder sb = new StringBuilder();
-        sb.append("City: " + cityInfo.getName() + "\n");
-        sb.append("Max temp: " + cityInfo.getMaxTemp() + " \n");
-        sb.append("Min temp: " + cityInfo.getMinTemp() + "\n");
-        sb.append("Weather: " + cityInfo.getWeather() + "\n");
-
-        textView.setText(sb.toString());
-    }
 }

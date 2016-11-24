@@ -22,7 +22,7 @@ import java.util.ArrayList;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class CityListActivityFragment extends Fragment {
+public class CityListFragment extends Fragment {
 
     private LinearLayout progressBar;
     private ListView listView;
@@ -32,7 +32,7 @@ public class CityListActivityFragment extends Fragment {
 
     private LatLng coordinates;
 
-    public CityListActivityFragment() {
+    public CityListFragment() {
     }
 
     @Override
@@ -76,6 +76,9 @@ public class CityListActivityFragment extends Fragment {
         return rootView;
     }
 
+    /**
+     * Creates an asynctask to fetch the cities info into the adapter
+     */
     private void fetchCitiesInfo() {
         FetchCitiesTask fetchCitiesTask = new FetchCitiesTask(getContext(), this.cityListAdapter, progressBar, listView);
 

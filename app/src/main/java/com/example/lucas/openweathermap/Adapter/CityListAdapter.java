@@ -43,13 +43,15 @@ public class CityListAdapter extends ArrayAdapter<CityInfo> {
 
             viewHolder.iconView.setImageResource(Utils.getWeatherIcon(cityInfo.getWeatherId()));
             viewHolder.cityView.setText(cityInfo.getName());
-            viewHolder.tempView.setText(Utils.formatTemperature(getContext(), cityInfo.getTemp(), true));
+            viewHolder.tempView.setText(Utils.formatTemperature(getContext(), cityInfo.getTemp(), Utils.isMetric(getContext())));
         }
 
         return view;
     }
 
-    //Cache of the children views
+    /**
+     * Cache of the children views for the cities list
+     */
     private static class ViewHolder {
 
         private final ImageView iconView;
