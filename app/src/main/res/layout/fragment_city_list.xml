@@ -26,6 +26,7 @@
         </ProgressBar>
     </LinearLayout>
 
+    <!--listview for the cities list-->
     <ListView
         android:id="@+id/listview_cityList"
         android:layout_width="match_parent"

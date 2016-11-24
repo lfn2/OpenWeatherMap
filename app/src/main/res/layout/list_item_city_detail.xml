@@ -13,6 +13,7 @@
         android:layout_width="60dp"
         android:layout_height="wrap_content">
 
+        <!--image icon-->
         <ImageView
             android:id="@+id/list_item_icon"
             android:layout_width="wrap_content"
@@ -26,6 +27,7 @@
         android:layout_weight="7"
         android:orientation="vertical">
 
+        <!--forecast date-->
         <TextView
             android:id="@+id/list_item_date_textview"
             android:layout_width="wrap_content"
@@ -33,6 +35,7 @@
             android:fontFamily="sans-serif-condensed"
             android:textSize="20sp"/>
 
+        <!--folrecast weather-->
         <TextView
             android:id="@+id/list_item_weather_textview"
             android:layout_width="wrap_content"
@@ -48,6 +51,7 @@
         android:orientation="vertical"
         android:paddingEnd="32dp">
 
+        <!--max temperature-->
         <TextView
             android:id="@+id/list_item_maxTemp_textview"
             android:layout_width="wrap_content"
@@ -56,6 +60,7 @@
             android:fontFamily="sans-serif-condensed"
             android:textSize="20sp"/>
 
+        <!--min temperature-->
         <TextView
             android:id="@+id/list_item_minTemp_textview"
             android:layout_width="wrap_content"

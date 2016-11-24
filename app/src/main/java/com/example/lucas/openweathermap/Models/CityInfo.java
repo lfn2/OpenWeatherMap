@@ -3,6 +3,9 @@ package com.example.lucas.openweathermap.Models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+/**
+ * Model for a city's information
+ */
 public class CityInfo implements Parcelable {
 
     private String name;

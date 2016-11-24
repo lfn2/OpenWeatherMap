@@ -7,6 +7,7 @@
     android:minHeight="?android:attr/listPreferredItemHeight"
     android:orientation="horizontal">
 
+    <!--weather icon-->
     <ImageView
         android:id="@+id/list_item_icon"
         android:layout_width="wrap_content"
@@ -19,6 +20,7 @@
         android:layout_weight="1"
         android:paddingStart="16dp">
 
+        <!--city name-->
         <TextView
             android:id="@+id/list_item_city_textview"
             android:layout_width="wrap_content"
@@ -34,6 +36,7 @@
         android:orientation="vertical"
         android:paddingEnd="32dp">
 
+        <!--city temperature-->
         <TextView
             android:id="@+id/list_item_temp_textview"
             android:layout_width="wrap_content"

@@ -25,7 +25,7 @@ import com.example.lucas.openweathermap.Utils.Utils;
 import java.util.ArrayList;
 
 /**
- * A placeholder fragment containing a simple view.
+ * Fragment for the detailed screen of a city forecast
  */
 public class CityDetailFragment extends Fragment {
 

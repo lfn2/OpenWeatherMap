@@ -3,6 +3,9 @@ package com.example.lucas.openweathermap.Models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+/**
+ * Model for a forecast information
+ */
 public class Forecast implements Parcelable {
 
     private double maxTemp;

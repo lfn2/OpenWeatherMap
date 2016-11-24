@@ -6,15 +6,13 @@ import android.preference.PreferenceManager;
 
 import com.example.lucas.openweathermap.R;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
 import java.text.SimpleDateFormat;
 
 public class Utils {
 
+    /**
+     * Returns the number of cities to be searched from the shared preferences
+     */
     public static int getCitiesCount(Context context) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
 
@@ -24,6 +22,9 @@ public class Utils {
         return citiesCount;
     }
 
+    /**
+     * Returns if the preferred unit is metric
+     */
     public static boolean isMetric(Context context) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
 
@@ -33,19 +34,9 @@ public class Utils {
         return unitPreference.equals(context.getString(R.string.unit_metric_value));
     }
 
-    public static String getJSON(HttpURLConnection connection) throws IOException {
-        InputStream inputStream = connection.getInputStream();
-        StringBuilder sb = new StringBuilder();
-
-        BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-        String line;
-        while ((line = reader.readLine()) != null) {
-            sb.append(line + "\n");
-        }
-
-        return sb.toString();
-    }
-
+    /**
+     * Formats the temperature to the preferred unit
+     */
     public static String formatTemperature(Context context, double temperature, boolean isMetric) {
         double temp;
 
@@ -60,25 +51,18 @@ public class Utils {
         return context.getString(R.string.format_temperature, temp);
     }
 
-    public static String formatWind(Context context, double windSpeed, boolean isMetric) {
-        int windFormat;
-
-        if (isMetric)
-            windFormat = R.string.format_wind_kmh;
-        else {
-            windFormat = R.string.format_wind_mph;
-            windSpeed = windSpeed / 1.609344d;
-        }
-
-        return String.format(context.getString(windFormat), windSpeed);
-    }
-
+    /**
+     * Formats the date from milliseconds
+     */
     public static String formatDate(long dateInMillis) {
         SimpleDateFormat shortenedDateFormat = new SimpleDateFormat("EEEE, MMM dd");
 
         return shortenedDateFormat.format(dateInMillis);
     }
 
+    /**
+     * Returns an weather icon based on the weatherId from the OpenWeatherMap API
+     */
     public static int getWeatherIcon(int weatherId) {
         if (weatherId >= 200 && weatherId <= 232) {
             return R.drawable.ic_storm;
@@ -108,9 +92,7 @@ public class Utils {
     }
 
     /**
-     * returns an weather art based on the weatherId from the OpenWeatherMap API
-     * @param weatherId from OWM API
-     * @return corresponding resource id
+     * Returns an weather art based on the weatherId from the OpenWeatherMap API
      */
     public static int getWeatherArt(int weatherId) {
         if (weatherId >= 200 && weatherId <= 232) {

@@ -15,6 +15,9 @@ import com.example.lucas.openweathermap.Utils.Utils;
 
 import java.util.ArrayList;
 
+/**
+ * Exposes a list forecasts from an ArrayAdapter to a ListView
+ */
 public class CityDetailAdapter extends ArrayAdapter<Forecast> {
 
     private static final int VIEW_TYPE_TODAY = 0;
@@ -54,6 +57,7 @@ public class CityDetailAdapter extends ArrayAdapter<Forecast> {
         if (view == null) {
             LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
+            //select view layout based on position
             int viewType = getItemViewType(position);
             if (viewType == VIEW_TYPE_TODAY)
                 view = inflater.inflate(R.layout.list_item_city_detail_today, parent, false);
@@ -70,6 +74,7 @@ public class CityDetailAdapter extends ArrayAdapter<Forecast> {
 
             ViewHolder viewHolder = (ViewHolder) view.getTag();
 
+            //select icon type based on position
             int viewType = getItemViewType(position);
             if (viewType == VIEW_TYPE_TODAY)
                 viewHolder.iconView.setImageResource(Utils.getWeatherArt(forecast.getWeatherId()));

@@ -8,6 +8,9 @@ import android.preference.PreferenceFragment;
 
 import com.example.lucas.openweathermap.R;
 
+/**
+ * Fragment for the settings screen
+ */
 public class SettingFragment extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     public SettingFragment() {

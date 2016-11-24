@@ -16,6 +16,9 @@ import com.example.lucas.openweathermap.Utils.Utils;
 
 import java.util.ArrayList;
 
+/**
+ * Exposes a list cityInfos from an ArrayAdapter to a ListView
+ */
 public class CityListAdapter extends ArrayAdapter<CityInfo> {
 
     private ArrayList<CityInfo> objects;

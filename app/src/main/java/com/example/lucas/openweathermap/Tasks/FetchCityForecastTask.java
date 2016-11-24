@@ -10,7 +10,6 @@ import android.widget.ListView;
 import com.example.lucas.openweathermap.Adapters.CityDetailAdapter;
 import com.example.lucas.openweathermap.BuildConfig;
 import com.example.lucas.openweathermap.Models.Forecast;
-import com.example.lucas.openweathermap.Utils.Utils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -47,7 +46,7 @@ public class FetchCityForecastTask extends FetchTask<String, Forecast> {
 
             connection = createConnection(url);
 
-            citiesForecastJSON = Utils.getJSON(connection);
+            citiesForecastJSON = readJSON(connection);
 
         } catch (Exception e) {
             Log.e(LOG_TAG, e.getMessage(), e);
@@ -85,7 +84,7 @@ public class FetchCityForecastTask extends FetchTask<String, Forecast> {
 
         List<Forecast> forecast = new ArrayList<>();
 
-        //Here we also get the day of the forecast.
+        //Here we also "get" the day of the forecast.
         //We start with the current day and increment by one on each forecast
         Time dayTime = new Time();
         dayTime.setToNow();

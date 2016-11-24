@@ -47,10 +47,9 @@ public class FetchCitiesTask extends FetchTask<LatLng, CityInfo> {
 
             connection = createConnection(url);
 
-            citiesForecastJSON = Utils.getJSON(connection);
+            citiesForecastJSON = readJSON(connection);
         } catch (Exception e) {
             Log.e(LOG_TAG, e.getMessage(), e);
-
             return null;
         } finally {
             if (connection != null)
@@ -62,7 +61,6 @@ public class FetchCitiesTask extends FetchTask<LatLng, CityInfo> {
             citiesInfo = parseDataFromJSON(citiesForecastJSON);
         } catch (JSONException e) {
             Log.e(LOG_TAG, e.getMessage(), e);
-
             return null;
         }
 

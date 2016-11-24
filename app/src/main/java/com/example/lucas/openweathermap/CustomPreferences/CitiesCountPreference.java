@@ -10,9 +10,8 @@ import android.widget.NumberPicker;
 import com.example.lucas.openweathermap.R;
 
 /**
- * Created by Lucas on 24/11/2016.
+ * Preference to determine the number of cities to be searched
  */
-
 public class CitiesCountPreference extends DialogPreference {
 
     private final int DEFAULT_VALUE = 15;

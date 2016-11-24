@@ -21,6 +21,7 @@
         </ProgressBar>
     </LinearLayout>
 
+    <!--listview for the weekly forecast-->
     <ListView
         android:id="@+id/listview_cityForecast"
         android:layout_width="match_parent"

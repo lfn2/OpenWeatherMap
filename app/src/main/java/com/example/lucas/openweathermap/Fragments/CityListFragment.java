@@ -20,7 +20,7 @@ import com.google.android.gms.maps.model.LatLng;
 import java.util.ArrayList;
 
 /**
- * A placeholder fragment containing a simple view.
+ * Fragment for the city list screen
  */
 public class CityListFragment extends Fragment {
 
