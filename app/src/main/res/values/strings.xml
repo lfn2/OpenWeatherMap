@@ -17,7 +17,7 @@
     <!--activity titles-->
     <string name="title_activity_city_list">Cities</string>
     <string name="title_activity_city_detail">Details</string>
-    <string name="title_activity_settings">SettingsActivity</string>
+    <string name="title_activity_settings">Settings</string>
 
     <!--unit formatting-->
     <string name="format_temperature"><xliff:g id="temp">%1.0f</xliff:g>\u00B0</string>
@@ -51,7 +51,7 @@
         <item>@string/unit_imperial_value</item>
     </string-array>
 
-    <string name="string_ok">Ok</string>
+    <string name="string_ok">OK</string>
     <string name="string_cancel">Cancel</string>
 
     <string name="key_preference_citiesCount">citiesCountPreference</string>

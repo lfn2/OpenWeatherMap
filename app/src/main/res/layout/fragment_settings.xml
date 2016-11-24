@@ -11,9 +11,4 @@
     tools:context="com.example.lucas.openweathermap.Fragments.SettingFragment"
     tools:showIn="@layout/activity_settings">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="hello"/>
-
 </RelativeLayout>

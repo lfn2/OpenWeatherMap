@@ -46,9 +46,12 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
 
-        MapFragment mapFragment = (MapFragment) getFragmentManager()
-                .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
+        if (mMap == null) {
+            MapFragment mapFragment = (MapFragment) getFragmentManager()
+                    .findFragmentById(R.id.map);
+            mapFragment.getMapAsync(this);
+        }
+
     }
 
     @Override

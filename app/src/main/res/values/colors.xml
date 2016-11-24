@@ -7,4 +7,5 @@
     <color name="lighter_blue">#e0f7fa</color>
     <color name="lightest_blue">#f0ffff</color>
     <color name="grey">#9e9e9e</color>
+    <color name="white">#ffffff</color>
 </resources>
