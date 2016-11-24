@@ -7,22 +7,12 @@ public class CityInfo implements Parcelable {
 
     private String name;
     private double temp;
-    private double maxTemp;
-    private double minTemp;
-    private String weather;
-    private int weatherId;
-    private double windSpeed;
-    private int humidity;
+    private Forecast forecast;
 
-    public CityInfo(String name, double temp, double maxTemp, double minTemp, String weather, int weatherId, double windSpeed, int humidity) {
+    public CityInfo(String name, double temp, Forecast forecast) {
         this.name = name;
         this.temp = temp;
-        this.maxTemp = maxTemp;
-        this.minTemp = minTemp;
-        this.weather = weather;
-        this.weatherId = weatherId;
-        this.windSpeed = windSpeed;
-        this.humidity = humidity;
+        this.forecast = forecast;
     }
 
     public String getName() {
@@ -33,28 +23,8 @@ public class CityInfo implements Parcelable {
         return temp;
     }
 
-    public double getMaxTemp() {
-        return maxTemp;
-    }
-
-    public double getMinTemp() {
-        return minTemp;
-    }
-
-    public String getWeather() {
-        return weather;
-    }
-
-    public int getWeatherId() {
-        return weatherId;
-    }
-
-    public double getWindSpeed() {
-        return windSpeed;
-    }
-
-    public int getHumidity() {
-        return humidity;
+    public Forecast getForecast() {
+        return forecast;
     }
 
     @Override
@@ -66,24 +36,14 @@ public class CityInfo implements Parcelable {
     public CityInfo(Parcel parcel) {
         this.name = parcel.readString();
         this.temp = parcel.readDouble();
-        this.maxTemp = parcel.readDouble();
-        this.minTemp = parcel.readDouble();
-        this.weather = parcel.readString();
-        this.weatherId = parcel.readInt();
-        this.windSpeed = parcel.readDouble();
-        this.humidity = parcel.readInt();
+        this.forecast = parcel.readParcelable(Forecast.class.getClassLoader());
     }
 
     @Override
-    public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeString(name);
-        parcel.writeDouble(temp);
-        parcel.writeDouble(maxTemp);
-        parcel.writeDouble(minTemp);
-        parcel.writeString(weather);
-        parcel.writeInt(weatherId);
-        parcel.writeDouble(windSpeed);
-        parcel.writeInt(humidity);
+    public void writeToParcel(Parcel parcel, int flags) {
+        parcel.writeString(this.name);
+        parcel.writeDouble(this.temp);
+        parcel.writeParcelable(this.forecast, flags);
     }
 
     public static final Parcelable.Creator<CityInfo> CREATOR = new Parcelable.Creator<CityInfo>() {
@@ -95,7 +55,5 @@ public class CityInfo implements Parcelable {
             return new CityInfo[size];
         }
     };
-
-
 
 }

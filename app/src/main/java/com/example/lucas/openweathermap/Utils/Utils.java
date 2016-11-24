@@ -6,6 +6,13 @@ import android.preference.PreferenceManager;
 
 import com.example.lucas.openweathermap.R;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.text.SimpleDateFormat;
+
 public class Utils {
 
     public static int getCitiesCount(Context context) {
@@ -24,6 +31,19 @@ public class Utils {
                                                 context.getString(R.string.default_value_preference_unit));
 
         return unitPreference.equals(context.getString(R.string.unit_metric_value));
+    }
+
+    public static String getJSON(HttpURLConnection connection) throws IOException {
+        InputStream inputStream = connection.getInputStream();
+        StringBuilder sb = new StringBuilder();
+
+        BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+        String line;
+        while ((line = reader.readLine()) != null) {
+            sb.append(line + "\n");
+        }
+
+        return sb.toString();
     }
 
     public static String formatTemperature(Context context, double temperature, boolean isMetric) {
@@ -53,11 +73,12 @@ public class Utils {
         return String.format(context.getString(windFormat), windSpeed);
     }
 
-    /**
-     * returns an weather icon based on the weatherId from the OpenWeatherMap API
-     * @param weatherId from OWM API
-     * @return corresponding resource id
-     */
+    public static String formatDate(long dateInMillis) {
+        SimpleDateFormat shortenedDateFormat = new SimpleDateFormat("EEEE, MMM dd");
+
+        return shortenedDateFormat.format(dateInMillis);
+    }
+
     public static int getWeatherIcon(int weatherId) {
         if (weatherId >= 200 && weatherId <= 232) {
             return R.drawable.ic_storm;

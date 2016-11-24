@@ -12,27 +12,29 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 
+import com.example.lucas.openweathermap.Adapters.CityDetailAdapter;
 import com.example.lucas.openweathermap.Models.CityInfo;
+import com.example.lucas.openweathermap.Models.Forecast;
 import com.example.lucas.openweathermap.R;
+import com.example.lucas.openweathermap.Tasks.FetchCityForecastTask;
 import com.example.lucas.openweathermap.Utils.Utils;
+
+import java.util.ArrayList;
 
 /**
  * A placeholder fragment containing a simple view.
  */
 public class CityDetailFragment extends Fragment {
 
-    private TextView cityNameView;
-    private TextView maxTempView;
-    private TextView minTempView;
-    private ImageView iconView;
-    private TextView weatherView;
-    private TextView humidityView;
-    private TextView windView;
+    private LinearLayout progressBar;
+    private ListView listView;
 
     private CityInfo cityInfo;
+    private ArrayList<Forecast> forecast;
+    private CityDetailAdapter cityDetailAdapter;
 
     public CityDetailFragment() {
         setHasOptionsMenu(true);
@@ -41,30 +43,26 @@ public class CityDetailFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         View rootView = inflater.inflate(R.layout.fragment_city_detail, container, false);
+
+        progressBar = (LinearLayout) rootView.findViewById(R.id.listview_progressBar);
 
         Intent intent = getActivity().getIntent();
         if (intent != null && intent.hasExtra(getString(R.string.intent_extra_cityInfo))) {
-            cityNameView = (TextView) rootView.findViewById(R.id.detail_cityName_textview);
-            maxTempView = (TextView) rootView.findViewById(R.id.detail_maxTemp_textview);
-            minTempView = (TextView) rootView.findViewById(R.id.detail_minTemp_textview);
-            iconView = (ImageView) rootView.findViewById(R.id.detail_icon);
-            weatherView = (TextView) rootView.findViewById(R.id.detail_weather_textview);
-            humidityView = (TextView) rootView.findViewById(R.id.detail_humidity_textview);
-            windView = (TextView) rootView.findViewById(R.id.detail_wind_textview);
-
             cityInfo = intent.getParcelableExtra(getString(R.string.intent_extra_cityInfo));
 
-            boolean isMetric = Utils.isMetric(getContext());
+            forecast = new ArrayList<>();
 
-            cityNameView.setText(cityInfo.getName());
-            maxTempView.setText(Utils.formatTemperature(getActivity(), cityInfo.getMaxTemp(), isMetric));
-            minTempView.setText(Utils.formatTemperature(getActivity(), cityInfo.getMinTemp(), isMetric));
-            iconView.setImageResource(Utils.getWeatherArt(cityInfo.getWeatherId()));
-            weatherView.setText(cityInfo.getWeather());
-            humidityView.setText(getActivity().getString(R.string.format_humidity, (float) cityInfo.getHumidity()));
-            windView.setText(Utils.formatWind(getActivity(), cityInfo.getWindSpeed(), isMetric));
+            cityDetailAdapter = new CityDetailAdapter(this.getActivity(), R.layout.list_item_city_detail, forecast);
+
+            listView = (ListView) rootView.findViewById(R.id.listview_cityForecast);
+            listView.setAdapter(cityDetailAdapter);
         }
+
+        forecast.add(cityInfo.getForecast());
+
+        fetchWeekForecast();
 
         return rootView;
     }
@@ -91,10 +89,13 @@ public class CityDetailFragment extends Fragment {
         shareIntent.setType("text/plain");
 
         String cityName = cityInfo.getName();
-        String weather = cityInfo.getWeather();
+
+        Forecast forecast = cityInfo.getForecast();
+
+        String weather = forecast.getWeather();
         Context context = getContext();
-        String minTemp = Utils.formatTemperature(context, cityInfo.getMinTemp(), Utils.isMetric(context));
-        String maxTemp = Utils.formatTemperature(context, cityInfo.getMaxTemp(), Utils.isMetric(context));
+        String minTemp = Utils.formatTemperature(context, forecast.getMinTemp(), Utils.isMetric(context));
+        String maxTemp = Utils.formatTemperature(context, forecast.getMaxTemp(), Utils.isMetric(context));
 
         String shareString = context.getString(R.string.share_string);
 
@@ -104,4 +105,9 @@ public class CityDetailFragment extends Fragment {
         return shareIntent;
     }
 
+    private void fetchWeekForecast() {
+        FetchCityForecastTask fetchCityForecast = new FetchCityForecastTask(getContext(), cityDetailAdapter, progressBar, listView);
+
+        fetchCityForecast.execute(cityInfo.getName());
+    }
 }

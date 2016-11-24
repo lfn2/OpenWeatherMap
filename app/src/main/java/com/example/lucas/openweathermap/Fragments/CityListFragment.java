@@ -47,7 +47,7 @@ public class CityListFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_city_list, container, false);
 
-        progressBar = (LinearLayout)  rootView.findViewById(R.id.listview_progressBar);
+        progressBar = (LinearLayout) rootView.findViewById(R.id.listview_progressBar);
 
         Intent intent = getActivity().getIntent();
         if (intent != null && intent.hasExtra(getString(R.string.intent_extra_latLng))) {

@@ -51,12 +51,14 @@
         <item>@string/unit_imperial_value</item>
     </string-array>
 
+    <string name="string_tomorrow">Tomorrow</string>
+    <string name="string_today">Today</string>
+
     <string name="string_ok">OK</string>
     <string name="string_cancel">Cancel</string>
 
     <string name="key_preference_citiesCount">citiesCountPreference</string>
     <string name="title_preference_citiesCount">Number of cities</string>
     <string name="default_value_preference_citiesCount">15</string>
-
 
 </resources>

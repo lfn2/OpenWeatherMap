@@ -38,15 +38,6 @@
                 android:value="com.example.lucas.openweathermap.Activities.MainActivity" />
         </activity>
         <activity
-            android:name=".Activities.CityDetailActivity"
-            android:label="@string/title_activity_city_detail"
-            android:parentActivityName=".Activities.CityListActivity"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.lucas.openweathermap.Activities.CityListActivity" />
-        </activity>
-        <activity
             android:name=".Activities.SettingsActivity"
             android:label="@string/title_activity_settings"
             android:parentActivityName=".Activities.MainActivity"
@@ -54,6 +45,15 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.lucas.openweathermap.Activities.MainActivity" />
+        </activity>
+        <activity
+            android:name=".Activities.CityDetailActivity"
+            android:label="@string/title_activity_city_detail"
+            android:parentActivityName=".Activities.CityListActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.lucas.openweathermap.Activities.CityListActivity" />
         </activity>
     </application>
 

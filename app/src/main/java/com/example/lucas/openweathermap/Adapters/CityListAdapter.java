@@ -1,6 +1,7 @@
 package com.example.lucas.openweathermap.Adapters;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.lucas.openweathermap.Models.CityInfo;
+import com.example.lucas.openweathermap.Models.Forecast;
 import com.example.lucas.openweathermap.R;
 import com.example.lucas.openweathermap.Utils.Utils;
 
@@ -25,7 +27,7 @@ public class CityListAdapter extends ArrayAdapter<CityInfo> {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(int position, View convertView, @NonNull ViewGroup parent) {
         View view = convertView;
 
         if (view == null) {
@@ -41,8 +43,10 @@ public class CityListAdapter extends ArrayAdapter<CityInfo> {
         if (cityInfo != null) {
             ViewHolder viewHolder = (ViewHolder) view.getTag();
 
-            viewHolder.iconView.setImageResource(Utils.getWeatherIcon(cityInfo.getWeatherId()));
+            Forecast forecast = cityInfo.getForecast();
+
             viewHolder.cityView.setText(cityInfo.getName());
+            viewHolder.iconView.setImageResource(Utils.getWeatherIcon(forecast.getWeatherId()));
             viewHolder.tempView.setText(Utils.formatTemperature(getContext(), cityInfo.getTemp(), Utils.isMetric(getContext())));
         }
 
