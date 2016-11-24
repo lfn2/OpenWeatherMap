@@ -8,11 +8,20 @@ import com.example.lucas.openweathermap.R;
 
 public class Utils {
 
+    public static int getCitiesCount(Context context) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+
+        int citiesCount = prefs.getInt(context.getString(R.string.key_preference_citiesCount),
+                Integer.parseInt(context.getString(R.string.default_value_preference_citiesCount)));
+
+        return citiesCount;
+    }
+
     public static boolean isMetric(Context context) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
 
         String unitPreference = prefs.getString(context.getString(R.string.key_preference_unit),
-                                                context.getString(R.string.default_unit_preference_value));
+                                                context.getString(R.string.default_value_preference_unit));
 
         return unitPreference.equals(context.getString(R.string.unit_metric_value));
     }

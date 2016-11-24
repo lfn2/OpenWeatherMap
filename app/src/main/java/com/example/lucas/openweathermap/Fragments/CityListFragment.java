@@ -11,7 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.example.lucas.openweathermap.Activities.CityDetailActivity;
-import com.example.lucas.openweathermap.Adapter.CityListAdapter;
+import com.example.lucas.openweathermap.Adapters.CityListAdapter;
 import com.example.lucas.openweathermap.Models.CityInfo;
 import com.example.lucas.openweathermap.R;
 import com.example.lucas.openweathermap.Tasks.FetchCitiesTask;

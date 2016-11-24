@@ -10,8 +10,13 @@
             android:key="@string/key_preference_unit"
             android:entries="@array/title_units"
             android:entryValues="@array/value_units"
-            android:defaultValue="@string/default_unit_preference_value"
+            android:defaultValue="@string/default_value_preference_unit"
             android:summary="%s" />
+
+        <com.example.lucas.openweathermap.CustomPreferences.CitiesCountPreference
+            android:key="@string/key_preference_citiesCount"
+            android:title="@string/title_preference_citiesCount"
+            android:defaultValue="@string/default_value_preference_citiesCount"/>
 
     </PreferenceCategory>
 

@@ -39,7 +39,7 @@
     <string name="unit_imperial_value">imperial</string>
 
     <!--metric as default unit-->
-    <string name="default_unit_preference_value">metric</string>
+    <string name="default_value_preference_unit">metric</string>
 
     <string-array name="title_units">
         <item>@string/unit_metric_title</item>
@@ -50,6 +50,13 @@
         <item>@string/unit_metric_value</item>
         <item>@string/unit_imperial_value</item>
     </string-array>
+
+    <string name="string_ok">Ok</string>
+    <string name="string_cancel">Cancel</string>
+
+    <string name="key_preference_citiesCount">citiesCountPreference</string>
+    <string name="title_preference_citiesCount">Number of cities</string>
+    <string name="default_value_preference_citiesCount">15</string>
 
 
 </resources>

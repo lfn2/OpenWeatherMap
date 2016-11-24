@@ -15,6 +15,7 @@ import android.widget.ListView;
 import com.example.lucas.openweathermap.Activities.MainActivity;
 import com.example.lucas.openweathermap.BuildConfig;
 import com.example.lucas.openweathermap.Models.CityInfo;
+import com.example.lucas.openweathermap.Utils.Utils;
 import com.google.android.gms.maps.model.LatLng;
 
 import org.json.JSONArray;
@@ -154,7 +155,6 @@ public class FetchCitiesTask extends AsyncTask<LatLng, Void, List<CityInfo>> {
         final String JSON_ID = "id";
         final String JSON_HUMIDITY = "humidity";
         final String JSON_WIND_SPEED = "speed";
-        final String JSON_WIND_DIRECTION = "deg";
         final String JSON_WIND = "wind";
 
         JSONObject json = new JSONObject(jsonStr);
@@ -206,16 +206,14 @@ public class FetchCitiesTask extends AsyncTask<LatLng, Void, List<CityInfo>> {
         final String QUERY_LAT_PARAM = "lat";
         final String QUERY_LON_PARAM = "lon";
         final String QUERY_CNT_PARAM = "cnt";
-        final String QUERY_UNIT_PARAM = "unit";
         final String QUERY_APPID_PARAM = "APPID";
-        final int CNT = 15;
-        final String unit = "metric";
+
+        final int citiesCount = Utils.getCitiesCount(context);
 
         Uri uri = Uri.parse(QUERY_BASE_URL).buildUpon()
                 .appendQueryParameter(QUERY_LAT_PARAM, Double.toString(latitude))
                 .appendQueryParameter(QUERY_LON_PARAM, Double.toString(longitude))
-                .appendQueryParameter(QUERY_CNT_PARAM, Integer.toString(CNT))
-                .appendQueryParameter(QUERY_UNIT_PARAM, unit)
+                .appendQueryParameter(QUERY_CNT_PARAM, Integer.toString(citiesCount))
                 .appendQueryParameter(QUERY_APPID_PARAM, BuildConfig.OPEN_WEATHER_MAP_API_KEY)
                 .build();
 

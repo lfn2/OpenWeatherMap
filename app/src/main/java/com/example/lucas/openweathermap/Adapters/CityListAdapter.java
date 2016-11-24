@@ -1,4 +1,4 @@
-package com.example.lucas.openweathermap.Adapter;
+package com.example.lucas.openweathermap.Adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
