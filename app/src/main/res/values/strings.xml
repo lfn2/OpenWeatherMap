@@ -4,7 +4,7 @@
     <string name="action_share">Share</string>
 
     <!--share string-->
-    <string name="share_string">Today\'s weather for %1$s: %2$s, %3$s - %4$s  #OpenWeatherMap</string>
+    <string name="share_string">Today\'s weather for %1$s: %2$s, %3$s/%4$s  #OpenWeatherMap</string>
 
     <!--bundle extras-->
     <string name="bundle_latitude">latitude</string>
