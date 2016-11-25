@@ -24,11 +24,11 @@ import java.util.ArrayList;
  */
 public class CityListFragment extends Fragment {
 
-    private LinearLayout progressBar;
-    private ListView listView;
+    private LinearLayout mProgressBar;
+    private ListView mListView;
 
-    private CityListAdapter cityListAdapter;
-    private ArrayList<CityInfo> cityInfos;
+    private CityListAdapter mCityListAdapter;
+    private ArrayList<CityInfo> mCityInfos;
 
     public CityListFragment() {
     }
@@ -45,21 +45,21 @@ public class CityListFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_city_list, container, false);
 
-        this.progressBar = (LinearLayout) rootView.findViewById(R.id.listview_progressBar);
+        mProgressBar = (LinearLayout) rootView.findViewById(R.id.listview_progressBar);
 
         Intent intent = getActivity().getIntent();
         if (intent != null && intent.hasExtra(getString(R.string.intent_extra_latLng))) {
             LatLng coordinates = intent.getParcelableExtra(getString(R.string.intent_extra_latLng));
 
-            this.cityInfos = new ArrayList<>();
-            this.cityListAdapter = new CityListAdapter(this.getActivity(), R.layout.list_item_city, cityInfos);
+            mCityInfos = new ArrayList<>();
+            mCityListAdapter = new CityListAdapter(this.getActivity(), R.layout.list_item_city, mCityInfos);
 
-            this.listView = (ListView) rootView.findViewById(R.id.listview_cityList);
-            this.listView.setAdapter(cityListAdapter);
-            this.listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            mListView = (ListView) rootView.findViewById(R.id.listview_cityList);
+            mListView.setAdapter(mCityListAdapter);
+            mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                    CityInfo cityInfo = cityListAdapter.getItem(position);
+                    CityInfo cityInfo = mCityListAdapter.getItem(position);
 
                     Intent intent = new Intent(getActivity(), CityDetailActivity.class)
                             .putExtra(getString(R.string.intent_extra_cityInfo), cityInfo);
@@ -79,7 +79,7 @@ public class CityListFragment extends Fragment {
      */
     private void fetchCitiesInfo(LatLng coordinates) {
         FetchCitiesTask fetchCitiesTask =
-                new FetchCitiesTask(getContext(), this.cityListAdapter, this.progressBar, this.listView);
+                new FetchCitiesTask(getContext(), mCityListAdapter, mProgressBar, mListView);
 
         fetchCitiesTask.execute(coordinates);
     }

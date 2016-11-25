@@ -24,6 +24,6 @@
         android:key="@string/preference_key_weeklyForecast"
         android:title="@string/preference_title_weeklyForecast"
         android:summary="@string/preference_summary_weeklyForecast"
-        android:defaultValue="false" />
+        android:defaultValue="true" />
 
 </PreferenceScreen>

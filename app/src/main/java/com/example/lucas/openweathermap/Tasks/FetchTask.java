@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.example.lucas.openweathermap.Activities.MainActivity;
+import com.example.lucas.openweathermap.R;
 
 import org.json.JSONException;
 
@@ -68,8 +69,8 @@ public abstract class FetchTask<T1, T2> extends AsyncTask<T1, Void, List<T2>> {
      */
     protected void showTimeoutDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setMessage("Couldn't find forecast");
-        builder.setPositiveButton("Back", new DialogInterface.OnClickListener() {
+        builder.setMessage(context.getString(R.string.error_fetch_forecast));
+        builder.setPositiveButton(context.getString(R.string.string_back), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int w) {
                 Intent intent = new Intent(context, MainActivity.class);
                 context.startActivity(intent);

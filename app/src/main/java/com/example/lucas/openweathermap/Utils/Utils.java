@@ -22,7 +22,7 @@ public class Utils {
         String unitPreference = prefs.getString(context.getString(R.string.preference_key_unit),
                 context.getString(R.string.default_value_preference_unit));
 
-        return unitPreference.equals(context.getString(R.string.unit_metric_value));
+        return unitPreference.equals(context.getString(R.string.unit_celsius_value));
     }
 
     /**

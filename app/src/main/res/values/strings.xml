@@ -32,27 +32,28 @@
     <string name="preference_title_unit">Unit</string>
     <string name="preference_key_unit">unitPreference</string>
 
-    <string name="unit_metric_title">Metric</string>
-    <string name="unit_metric_value">metric</string>
+    <string name="unit_celsius_title">Celsius</string>
+    <string name="unit_celsius_value">celsius</string>
 
-    <string name="unit_imperial_title">Imperial</string>
-    <string name="unit_imperial_value">imperial</string>
+    <string name="unit_fahrenheit_title">Fahrenheit</string>
+    <string name="unit_fahrenheit_value">fahrenheit</string>
 
     <!--metric as default unit-->
     <string name="default_value_preference_unit">metric</string>
 
     <string-array name="title_units">
-        <item>@string/unit_metric_title</item>
-        <item>@string/unit_imperial_title</item>
+        <item>@string/unit_celsius_title</item>
+        <item>@string/unit_celsius_title</item>
     </string-array>
 
     <string-array name="value_units">
-        <item>@string/unit_metric_value</item>
-        <item>@string/unit_imperial_value</item>
+        <item>@string/unit_celsius_value</item>
+        <item>@string/unit_fahrenheit_value</item>
     </string-array>
 
     <string name="string_ok">OK</string>
     <string name="string_cancel">Cancel</string>
+    <string name="string_back">Back</string>
 
     <!--cities count preference-->
     <string name="preference_key_citiesCount">citiesCountPreference</string>
@@ -63,5 +64,9 @@
     <string name="preference_key_weeklyForecast">weeklyForecastPreference</string>
     <string name="preference_title_weeklyForecast">Weekly Forecast</string>
     <string name="preference_summary_weeklyForecast">Fetch a city\'s weekly forecast\n(consumes more broadband)</string>
+
+    <!--errors-->
+    <string name="error_fetch_forecast">Couldn\'t find forecast</string>
+    <string name="error_no_marker">Please add a marker before searching</string>
 
 </resources>
