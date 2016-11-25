@@ -64,6 +64,7 @@ public class Forecast implements Parcelable {
         minTemp = in.readDouble();
         weather = in.readString();
         weatherId = in.readInt();
+        dateTime = in.readLong();
     }
 
     @Override
@@ -72,5 +73,6 @@ public class Forecast implements Parcelable {
         parcel.writeDouble(minTemp);
         parcel.writeString(weather);
         parcel.writeInt(weatherId);
+        parcel.writeLong(dateTime);
     }
 }

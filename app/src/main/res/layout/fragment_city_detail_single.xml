@@ -3,6 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingTop="16dp"
     android:id="@+id/detail_scrollView"
     android:background="@color/lightest_blue">
 
@@ -20,7 +21,7 @@
             android:id="@+id/detail_single_date_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:textAppearanceLarge"
+            android:textSize="30dp"
             android:fontFamily="sans-serif-condensed"
             android:textColor="@color/grey"/>
 

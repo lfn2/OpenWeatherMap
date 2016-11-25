@@ -40,6 +40,8 @@
         <activity
             android:name=".Activities.SettingsActivity"
             android:label="@string/title_activity_settings"
+            android:launchMode="singleTop"
+            android:configChanges="orientation|keyboardHidden"
             android:parentActivityName=".Activities.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
@@ -49,6 +51,8 @@
         <activity
             android:name=".Activities.CityDetailActivity"
             android:label="@string/title_activity_city_detail"
+            android:launchMode="singleTop"
+            android:configChanges="orientation|keyboardHidden"
             android:parentActivityName=".Activities.CityListActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data

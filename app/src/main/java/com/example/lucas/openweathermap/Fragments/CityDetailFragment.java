@@ -52,6 +52,8 @@ public class CityDetailFragment extends Fragment implements OnTaskCompleteListen
         if (intent != null && intent.hasExtra(getString(R.string.intent_extra_cityInfo)))
             cityInfo = intent.getParcelableExtra(getString(R.string.intent_extra_cityInfo));
 
+        forecast = new ArrayList<>();
+
         if (Utils.isWeeklyForecast(getContext()))
             return getWeeklyForecastView(inflater, container);
         else
@@ -72,14 +74,14 @@ public class CityDetailFragment extends Fragment implements OnTaskCompleteListen
 
             Forecast forecast = cityInfo.getForecast();
 
-            dateView.setText(Long.toString(forecast.getDateTime()));
+            dateView.setText(Utils.formatDate(forecast.getDateTime()));
             maxTempView.setText(Utils.formatTemperature(getActivity(), forecast.getMaxTemp(), isMetric));
             minTempView.setText(Utils.formatTemperature(getActivity(), forecast.getMinTemp(), isMetric));
             iconView.setImageResource(Utils.getWeatherArt(forecast.getWeatherId()));
             weatherView.setText(forecast.getWeather());
         }
 
-        shareActionProvider.setShareIntent(createShareForecastIntent());
+        forecast.add(cityInfo.getForecast());
 
         return rootView;
     }
@@ -88,8 +90,6 @@ public class CityDetailFragment extends Fragment implements OnTaskCompleteListen
         View rootView = inflater.inflate(R.layout.fragment_city_detail_weekly, container, false);
 
         if (cityInfo != null) {
-            forecast = new ArrayList<>();
-
             cityDetailAdapter = new CityDetailAdapter(this.getActivity(), R.layout.list_item_city_detail, forecast);
 
             listView = (ListView) rootView.findViewById(R.id.listview_cityForecast);
@@ -110,6 +110,10 @@ public class CityDetailFragment extends Fragment implements OnTaskCompleteListen
         MenuItem menuItem = menu.findItem(R.id.action_share);
 
         shareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(menuItem);
+
+        //The share intent can only be created here if we have a single day forecast
+        if (forecast.size() == 1)
+            shareActionProvider.setShareIntent(createShareForecastIntent());
     }
 
     @Override

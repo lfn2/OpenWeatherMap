@@ -24,7 +24,7 @@
             android:id="@+id/list_item_date_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:textAppearanceLarge"
+            android:textSize="30dp"
             android:fontFamily="sans-serif-condensed"
             android:textColor="@color/grey"/>
 
@@ -33,7 +33,7 @@
             android:id="@+id/list_item_maxTemp_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="72sp"
+            android:textSize="60sp"
             android:layout_marginStart="26dp"
             android:layout_marginLeft="26dp"
             android:fontFamily="sans-serif-light"
@@ -47,7 +47,7 @@
             android:layout_marginLeft="40dp"
             android:layout_marginStart="40dp"
             android:textColor="@color/grey"
-            android:textSize="36sp"/>
+            android:textSize="30sp"/>
 
     </LinearLayout>
 
@@ -57,7 +57,8 @@
         android:layout_weight="5"
         android:orientation="vertical"
         android:gravity="center_horizontal|bottom"
-        android:layout_marginEnd="16dp">
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp">
 
         <!--forecast icon-->
         <ImageView
