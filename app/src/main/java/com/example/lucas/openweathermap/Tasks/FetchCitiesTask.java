@@ -44,9 +44,9 @@ public class FetchCitiesTask extends FetchTask<LatLng, CityInfo> {
         String citiesForecastJSON = null;
 
         try {
-            URL url = createQuery(latitude, longitude);
+            URL queryURL = createQueryURL(latitude, longitude);
 
-            connection = createConnection(url);
+            connection = createConnection(queryURL);
 
             citiesForecastJSON = readJSON(connection);
         } catch (Exception e) {
@@ -115,7 +115,7 @@ public class FetchCitiesTask extends FetchTask<LatLng, CityInfo> {
     /**
      * Creates the query for the OWM API
      */
-    private URL createQuery(double latitude, double longitude) throws MalformedURLException {
+    private URL createQueryURL(double latitude, double longitude) throws MalformedURLException {
         final String QUERY_BASE_URL = "http://api.openweathermap.org/data/2.5/find?";
         final String QUERY_LAT_PARAM = "lat";
         final String QUERY_LON_PARAM = "lon";

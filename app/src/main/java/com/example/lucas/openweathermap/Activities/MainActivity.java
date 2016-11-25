@@ -58,8 +58,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
+
         return true;
     }
 
@@ -92,7 +92,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     /**
-     * Add or reposition a marker, and center screen on its location
+     * Add or reposition a marker, and center the screen on its location
      */
     private void addMarker(LatLng coordinates) {
         mMap.clear();

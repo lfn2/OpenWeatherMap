@@ -30,8 +30,6 @@ public class CityListFragment extends Fragment {
     private CityListAdapter cityListAdapter;
     private ArrayList<CityInfo> cityInfos;
 
-    private LatLng coordinates;
-
     public CityListFragment() {
     }
 
@@ -47,18 +45,18 @@ public class CityListFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_city_list, container, false);
 
-        progressBar = (LinearLayout) rootView.findViewById(R.id.listview_progressBar);
+        this.progressBar = (LinearLayout) rootView.findViewById(R.id.listview_progressBar);
 
         Intent intent = getActivity().getIntent();
         if (intent != null && intent.hasExtra(getString(R.string.intent_extra_latLng))) {
-            coordinates = intent.getParcelableExtra(getString(R.string.intent_extra_latLng));
+            LatLng coordinates = intent.getParcelableExtra(getString(R.string.intent_extra_latLng));
 
-            cityInfos = new ArrayList<>();
-            cityListAdapter = new CityListAdapter(this.getActivity(), R.layout.list_item_city, cityInfos);
+            this.cityInfos = new ArrayList<>();
+            this.cityListAdapter = new CityListAdapter(this.getActivity(), R.layout.list_item_city, cityInfos);
 
-            listView = (ListView) rootView.findViewById(R.id.listview_cityList);
-            listView.setAdapter(cityListAdapter);
-            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            this.listView = (ListView) rootView.findViewById(R.id.listview_cityList);
+            this.listView.setAdapter(cityListAdapter);
+            this.listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                     CityInfo cityInfo = cityListAdapter.getItem(position);
@@ -70,7 +68,7 @@ public class CityListFragment extends Fragment {
                 }
             });
 
-            fetchCitiesInfo();
+            fetchCitiesInfo(coordinates);
         }
 
         return rootView;
@@ -79,8 +77,9 @@ public class CityListFragment extends Fragment {
     /**
      * Creates an asynctask to fetch the cities info into the adapter
      */
-    private void fetchCitiesInfo() {
-        FetchCitiesTask fetchCitiesTask = new FetchCitiesTask(getContext(), this.cityListAdapter, progressBar, listView);
+    private void fetchCitiesInfo(LatLng coordinates) {
+        FetchCitiesTask fetchCitiesTask =
+                new FetchCitiesTask(getContext(), this.cityListAdapter, this.progressBar, this.listView);
 
         fetchCitiesTask.execute(coordinates);
     }

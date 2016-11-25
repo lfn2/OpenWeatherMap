@@ -50,7 +50,7 @@ public class CityListAdapter extends ArrayAdapter<CityInfo> {
 
             viewHolder.cityView.setText(cityInfo.getName());
             viewHolder.iconView.setImageResource(Utils.getWeatherIcon(forecast.getWeatherId()));
-            viewHolder.tempView.setText(Utils.formatTemperature(getContext(), cityInfo.getTemp(), Utils.isMetric(getContext())));
+            viewHolder.tempView.setText(Utils.formatTemperature(getContext(), cityInfo.getTemperature(), Utils.isMetric(getContext())));
         }
 
         return view;
@@ -66,9 +66,9 @@ public class CityListAdapter extends ArrayAdapter<CityInfo> {
         private final TextView tempView;
 
         private ViewHolder(View view) {
-            iconView = (ImageView) view.findViewById(R.id.list_item_icon);
-            cityView = (TextView) view.findViewById(R.id.list_item_city_textview);
-            tempView = (TextView) view.findViewById(R.id.list_item_temp_textview);
+            this.iconView = (ImageView) view.findViewById(R.id.list_item_icon);
+            this.cityView = (TextView) view.findViewById(R.id.list_item_city_textview);
+            this.tempView = (TextView) view.findViewById(R.id.list_item_temp_textview);
         }
 
     }

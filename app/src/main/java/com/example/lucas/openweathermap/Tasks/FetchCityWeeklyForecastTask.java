@@ -10,7 +10,7 @@ import android.widget.ListView;
 import com.example.lucas.openweathermap.Adapters.CityDetailAdapter;
 import com.example.lucas.openweathermap.BuildConfig;
 import com.example.lucas.openweathermap.Models.Forecast;
-import com.example.lucas.openweathermap.OnTaskCompleteListener;
+import com.example.lucas.openweathermap.Listeners.OnTaskCompleteListener;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -43,7 +43,7 @@ public class FetchCityWeeklyForecastTask extends FetchTask<String, Forecast> {
     protected void onPostExecute(List<Forecast> result) {
         super.onPostExecute(result);
 
-        taskCompleteListener.OnTaskComplete();
+        this.taskCompleteListener.OnTaskComplete();
     }
 
     @Override
@@ -57,9 +57,9 @@ public class FetchCityWeeklyForecastTask extends FetchTask<String, Forecast> {
         String citiesForecastJSON = null;
 
         try {
-            URL url = createQuery(cityName);
+            URL queryURL = createQueryURL(cityName);
 
-            connection = createConnection(url);
+            connection = createConnection(queryURL);
 
             citiesForecastJSON = readJSON(connection);
 
@@ -112,12 +112,13 @@ public class FetchCityWeeklyForecastTask extends FetchTask<String, Forecast> {
             JSONObject weatherObject = dayForecast.getJSONArray(JSON_WEATHER).getJSONObject(0);
             String weatherDescription = weatherObject.getString(JSON_DESCRIPTION);
             int weatherId = weatherObject.getInt(JSON_ID);
+
             JSONObject tempObject = dayForecast.getJSONObject(JSON_TEMP);
             double maxTemp = tempObject.getDouble(JSON_MAX);
             double minTemp = tempObject.getDouble(JSON_MIN);
 
             // Convert to UTC time
-            long dateTime = dayTime.setJulianDay(julianStartDay+i);
+            long dateTime = dayTime.setJulianDay(julianStartDay + i);
 
             forecast.add(new Forecast(maxTemp, minTemp, weatherDescription, weatherId, dateTime));
         }
@@ -125,7 +126,7 @@ public class FetchCityWeeklyForecastTask extends FetchTask<String, Forecast> {
         return forecast;
     }
 
-    private URL createQuery(String cityName) throws MalformedURLException {
+    private URL createQueryURL(String cityName) throws MalformedURLException {
         final String FORECAST_BASE_URL = "http://api.openweathermap.org/data/2.5/forecast/daily?";
         final String QUERY_PARAM = "q";
         final String DAYS_PARAM = "cnt";

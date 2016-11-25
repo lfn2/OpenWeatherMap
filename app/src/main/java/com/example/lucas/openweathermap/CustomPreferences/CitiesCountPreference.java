@@ -40,8 +40,11 @@ public class CitiesCountPreference extends DialogPreference {
     @Override
     protected View onCreateDialogView() {
         this.picker = new NumberPicker(getContext());
+
         this.picker.setMinValue(MIN_VALUE);
         this.picker.setMaxValue(MAX_VALUE);
+        this.picker.setValue(this.value);
+
         return this.picker;
     }
 

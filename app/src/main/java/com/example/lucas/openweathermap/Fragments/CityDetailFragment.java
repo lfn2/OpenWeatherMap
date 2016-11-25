@@ -20,7 +20,7 @@ import android.widget.TextView;
 import com.example.lucas.openweathermap.Adapters.CityDetailAdapter;
 import com.example.lucas.openweathermap.Models.CityInfo;
 import com.example.lucas.openweathermap.Models.Forecast;
-import com.example.lucas.openweathermap.OnTaskCompleteListener;
+import com.example.lucas.openweathermap.Listeners.OnTaskCompleteListener;
 import com.example.lucas.openweathermap.R;
 import com.example.lucas.openweathermap.Tasks.FetchCityWeeklyForecastTask;
 import com.example.lucas.openweathermap.Utils.Utils;
@@ -46,13 +46,12 @@ public class CityDetailFragment extends Fragment implements OnTaskCompleteListen
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Intent intent = getActivity().getIntent();
         if (intent != null && intent.hasExtra(getString(R.string.intent_extra_cityInfo)))
-            cityInfo = intent.getParcelableExtra(getString(R.string.intent_extra_cityInfo));
+            this.cityInfo = intent.getParcelableExtra(getString(R.string.intent_extra_cityInfo));
 
-        forecast = new ArrayList<>();
+        this.forecast = new ArrayList<>();
 
         if (Utils.isWeeklyForecast(getContext()))
             return getWeeklyForecastView(inflater, container);
@@ -81,7 +80,7 @@ public class CityDetailFragment extends Fragment implements OnTaskCompleteListen
             weatherView.setText(forecast.getWeather());
         }
 
-        forecast.add(cityInfo.getForecast());
+        this.forecast.add(this.cityInfo.getForecast());
 
         return rootView;
     }
@@ -89,14 +88,14 @@ public class CityDetailFragment extends Fragment implements OnTaskCompleteListen
     private View getWeeklyForecastView(LayoutInflater inflater, ViewGroup container) {
         View rootView = inflater.inflate(R.layout.fragment_city_detail_weekly, container, false);
 
-        if (cityInfo != null) {
-            cityDetailAdapter = new CityDetailAdapter(this.getActivity(), R.layout.list_item_city_detail, forecast);
+        if (this.cityInfo != null) {
+            this.cityDetailAdapter = new CityDetailAdapter(this.getActivity(), R.layout.list_item_city_detail, forecast);
 
-            listView = (ListView) rootView.findViewById(R.id.listview_cityForecast);
-            listView.setAdapter(cityDetailAdapter);
+            this.listView = (ListView) rootView.findViewById(R.id.listview_cityForecast);
+            this.listView.setAdapter(this.cityDetailAdapter);
         }
 
-        progressBar = (LinearLayout) rootView.findViewById(R.id.listview_progressBar);
+        this.progressBar = (LinearLayout) rootView.findViewById(R.id.listview_progressBar);
 
         fetchWeeklyForecast();
 
@@ -109,16 +108,16 @@ public class CityDetailFragment extends Fragment implements OnTaskCompleteListen
 
         MenuItem menuItem = menu.findItem(R.id.action_share);
 
-        shareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(menuItem);
+        this.shareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(menuItem);
 
         //The share intent can only be created here if we have a single day forecast
-        if (forecast.size() == 1)
-            shareActionProvider.setShareIntent(createShareForecastIntent());
+        if (this.forecast.size() == 1)
+            this.shareActionProvider.setShareIntent(createShareForecastIntent());
     }
 
     @Override
     public void OnTaskComplete() {
-        shareActionProvider.setShareIntent(createShareForecastIntent());
+        this.shareActionProvider.setShareIntent(createShareForecastIntent());
     }
 
     /**
@@ -130,14 +129,14 @@ public class CityDetailFragment extends Fragment implements OnTaskCompleteListen
         shareIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_DOCUMENT);
         shareIntent.setType("text/plain");
 
-        String cityName = cityInfo.getName();
-
-        Forecast forecastToday = forecast.get(0);
-
-        String weather = forecastToday.getWeather();
         Context context = getContext();
-        String minTemp = Utils.formatTemperature(context, forecastToday.getMinTemp(), Utils.isMetric(context));
-        String maxTemp = Utils.formatTemperature(context, forecastToday.getMaxTemp(), Utils.isMetric(context));
+        boolean isMetric = Utils.isMetric(context);
+
+        String cityName = this.cityInfo.getName();
+        Forecast forecastToday = this.forecast.get(0);
+        String weather = forecastToday.getWeather();
+        String minTemp = Utils.formatTemperature(context, forecastToday.getMinTemp(), isMetric);
+        String maxTemp = Utils.formatTemperature(context, forecastToday.getMaxTemp(), isMetric);
 
         String shareString = context.getString(R.string.share_string);
 
@@ -151,6 +150,6 @@ public class CityDetailFragment extends Fragment implements OnTaskCompleteListen
         FetchCityWeeklyForecastTask fetchCityForecast =
                 new FetchCityWeeklyForecastTask(getContext(), cityDetailAdapter, progressBar, listView, this);
 
-        fetchCityForecast.execute(cityInfo.getName());
+        fetchCityForecast.execute(this.cityInfo.getName());
     }
 }

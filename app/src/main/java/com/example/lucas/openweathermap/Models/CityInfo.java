@@ -9,12 +9,12 @@ import android.os.Parcelable;
 public class CityInfo implements Parcelable {
 
     private String name;
-    private double temp;
+    private double temperature;
     private Forecast forecast;
 
-    public CityInfo(String name, double temp, Forecast forecast) {
+    public CityInfo(String name, double temperature, Forecast forecast) {
         this.name = name;
-        this.temp = temp;
+        this.temperature = temperature;
         this.forecast = forecast;
     }
 
@@ -22,8 +22,8 @@ public class CityInfo implements Parcelable {
         return name;
     }
 
-    public double getTemp() {
-        return temp;
+    public double getTemperature() {
+        return temperature;
     }
 
     public Forecast getForecast() {
@@ -38,14 +38,14 @@ public class CityInfo implements Parcelable {
     //Create CityInfo reading its parcel
     public CityInfo(Parcel parcel) {
         this.name = parcel.readString();
-        this.temp = parcel.readDouble();
+        this.temperature = parcel.readDouble();
         this.forecast = parcel.readParcelable(Forecast.class.getClassLoader());
     }
 
     @Override
     public void writeToParcel(Parcel parcel, int flags) {
         parcel.writeString(this.name);
-        parcel.writeDouble(this.temp);
+        parcel.writeDouble(this.temperature);
         parcel.writeParcelable(this.forecast, flags);
     }
 

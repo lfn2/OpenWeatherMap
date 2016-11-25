@@ -68,7 +68,7 @@ public class CityDetailAdapter extends ArrayAdapter<Forecast> {
             view.setTag(viewHolder);
         }
 
-        Forecast forecast = objects.get(position);
+        Forecast forecast = this.objects.get(position);
         if (forecast != null) {
             Context context = getContext();
 
@@ -109,11 +109,11 @@ public class CityDetailAdapter extends ArrayAdapter<Forecast> {
         private final TextView minTempView;
 
         private ViewHolder(View view) {
-            iconView = (ImageView) view.findViewById(R.id.list_item_icon);
-            dateView = (TextView) view.findViewById(R.id.list_item_date_textview);
-            weatherView = (TextView) view.findViewById(R.id.list_item_weather_textview);
-            maxTempView = (TextView) view.findViewById(R.id.list_item_maxTemp_textview);
-            minTempView = (TextView) view.findViewById(R.id.list_item_minTemp_textview);
+            this.iconView = (ImageView) view.findViewById(R.id.list_item_icon);
+            this.dateView = (TextView) view.findViewById(R.id.list_item_date_textview);
+            this.weatherView = (TextView) view.findViewById(R.id.list_item_weather_textview);
+            this.maxTempView = (TextView) view.findViewById(R.id.list_item_maxTemp_textview);
+            this.minTempView = (TextView) view.findViewById(R.id.list_item_minTemp_textview);
         }
 
     }

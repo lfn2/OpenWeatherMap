@@ -27,7 +27,7 @@ import java.util.List;
  */
 public abstract class FetchTask<T1, T2> extends AsyncTask<T1, Void, List<T2>> {
 
-    private final int TIMEOUT_MILLIS = 10000;
+    private final int TIMEOUT_MILLIS = 12000;
 
     protected Context context;
     protected LinearLayout progressBar;
