@@ -38,10 +38,12 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(), CityListActivity.class)
-                        .putExtra(getString(R.string.intent_extra_latLng), markerCoordinates);
+                if (markerCoordinates != null) {
+                    Intent intent = new Intent(view.getContext(), CityListActivity.class)
+                            .putExtra(getString(R.string.intent_extra_latLng), markerCoordinates);
 
-                startActivity(intent);
+                    startActivity(intent);
+                }
             }
         });
 
