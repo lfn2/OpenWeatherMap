@@ -10,28 +10,31 @@ import java.text.SimpleDateFormat;
 
 public class Utils {
 
+    public static boolean isWeeklyForecast(Context context) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+
+        return prefs.getBoolean(context.getString(R.string.preference_key_weeklyForecast), false);
+    }
+
+    public static boolean isMetric(Context context) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+
+        String unitPreference = prefs.getString(context.getString(R.string.preference_key_unit),
+                context.getString(R.string.default_value_preference_unit));
+
+        return unitPreference.equals(context.getString(R.string.unit_metric_value));
+    }
+
     /**
      * Returns the number of cities to be searched from the shared preferences
      */
     public static int getCitiesCount(Context context) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
 
-        int citiesCount = prefs.getInt(context.getString(R.string.key_preference_citiesCount),
-                Integer.parseInt(context.getString(R.string.default_value_preference_citiesCount)));
+        int citiesCount = prefs.getInt(context.getString(R.string.preference_key_citiesCount),
+                Integer.parseInt(context.getString(R.string.preference_default_citiesCount)));
 
         return citiesCount;
-    }
-
-    /**
-     * Returns if the preferred unit is metric
-     */
-    public static boolean isMetric(Context context) {
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-
-        String unitPreference = prefs.getString(context.getString(R.string.key_preference_unit),
-                                                context.getString(R.string.default_value_preference_unit));
-
-        return unitPreference.equals(context.getString(R.string.unit_metric_value));
     }
 
     /**
@@ -47,6 +50,10 @@ public class Utils {
         else {
             temp = (temperature * ((double)9/5)) - 459.67;
         }
+
+        //Prevent temperature from being -0
+        if (temp < 0 && temp > -1)
+            temp = 0;
 
         return context.getString(R.string.format_temperature, temp);
     }

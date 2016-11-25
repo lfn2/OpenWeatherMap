@@ -2,6 +2,7 @@ package com.example.lucas.openweathermap.Tasks;
 
 import android.content.Context;
 import android.net.Uri;
+import android.text.format.Time;
 import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
@@ -98,7 +99,12 @@ public class FetchCitiesTask extends FetchTask<LatLng, CityInfo> {
             double maxTemp = tempObject.getDouble(JSON_MAX);
             double minTemp = tempObject.getDouble(JSON_MIN);
 
-            Forecast forecast = new Forecast(maxTemp, minTemp, weatherDescription, weatherId, 0);
+            Time time = new Time();
+            time.setToNow();
+            int julianDay = Time.getJulianDay(System.currentTimeMillis(), time.gmtoff);
+            long dateTime = time.setJulianDay(julianDay);
+
+            Forecast forecast = new Forecast(maxTemp, minTemp, weatherDescription, weatherId, dateTime);
 
             citiesInfo.add(new CityInfo(name, temp, forecast));
         }

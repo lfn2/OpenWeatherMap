@@ -6,18 +6,24 @@
         android:key="@string/key_general_category">
 
         <ListPreference
-            android:title="@string/title_preference_unit"
-            android:key="@string/key_preference_unit"
+            android:title="@string/preference_title_unit"
+            android:key="@string/preference_key_unit"
             android:entries="@array/title_units"
             android:entryValues="@array/value_units"
             android:defaultValue="@string/default_value_preference_unit"
             android:summary="%s" />
 
         <com.example.lucas.openweathermap.CustomPreferences.CitiesCountPreference
-            android:key="@string/key_preference_citiesCount"
-            android:title="@string/title_preference_citiesCount"
-            android:defaultValue="@string/default_value_preference_citiesCount"/>
+            android:key="@string/preference_key_citiesCount"
+            android:title="@string/preference_title_citiesCount"
+            android:defaultValue="@string/preference_default_citiesCount"/>
 
     </PreferenceCategory>
+
+    <CheckBoxPreference
+        android:key="@string/preference_key_weeklyForecast"
+        android:title="@string/preference_title_weeklyForecast"
+        android:summary="@string/preference_summary_weeklyForecast"
+        android:defaultValue="false" />
 
 </PreferenceScreen>

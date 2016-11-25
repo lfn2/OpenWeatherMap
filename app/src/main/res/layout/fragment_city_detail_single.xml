@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/detail_scrollView"
+    android:background="@color/lightest_blue">
+
+    <!--header-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:gravity="center_vertical"
+        android:layout_gravity="left">
+
+        <!--forecast date-->
+        <TextView
+            android:id="@+id/detail_single_date_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:textAppearanceLarge"
+            android:fontFamily="sans-serif-condensed"
+            android:textColor="@color/grey"/>
+
+        <!--temperature and weather-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="16dp"
+            android:orientation="horizontal"
+            android:gravity="center_horizontal">
+
+            <!--temperatures-->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:layout_marginRight="16dp">
+
+                <!--max temperature-->
+                <TextView
+                    android:id="@+id/detail_single_maxTemp_textview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-light"
+                    android:textSize="84sp"/>
+
+                <!--min temperature-->
+                <TextView
+                    android:id="@+id/detail_single_minTemp_textview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:textSize="42sp"/>
+
+            </LinearLayout>
+
+            <!--weather-->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_gravity="center_horizontal"
+                android:orientation="vertical"
+                >
+
+                <!--forecast icon-->
+                <ImageView
+                    android:id="@+id/detail_single_item_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <!--forecast weather-->
+                <TextView
+                    android:id="@+id/detail_single_weather_textview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-condensed"
+                    android:textAppearance="?android:textAppearanceLarge"
+                    android:textColor="@color/grey"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</ScrollView>

@@ -27,7 +27,7 @@ public class SettingFragment extends PreferenceFragment implements SharedPrefere
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         Preference preference = findPreference(key);
 
-        if (key.equals(R.string.key_preference_unit))
+        if (key.equals(R.string.preference_key_unit))
             preference.setSummary(((ListPreference) preference).getEntry());
     }
 

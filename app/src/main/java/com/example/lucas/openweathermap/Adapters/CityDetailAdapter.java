@@ -82,6 +82,7 @@ public class CityDetailAdapter extends ArrayAdapter<Forecast> {
                 viewHolder.iconView.setImageResource(Utils.getWeatherIcon(forecast.getWeatherId()));
 
             viewHolder.dateView.setText(Utils.formatDate(forecast.getDateTime()));
+
             viewHolder.weatherView.setText(forecast.getWeather());
 
             boolean isMetric = Utils.isMetric(context);

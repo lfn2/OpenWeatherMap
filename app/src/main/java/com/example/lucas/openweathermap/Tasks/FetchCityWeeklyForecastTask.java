@@ -10,6 +10,7 @@ import android.widget.ListView;
 import com.example.lucas.openweathermap.Adapters.CityDetailAdapter;
 import com.example.lucas.openweathermap.BuildConfig;
 import com.example.lucas.openweathermap.Models.Forecast;
+import com.example.lucas.openweathermap.OnTaskCompleteListener;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -21,14 +22,28 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FetchCityForecastTask extends FetchTask<String, Forecast> {
+public class FetchCityWeeklyForecastTask extends FetchTask<String, Forecast> {
 
-    private final String LOG_TAG = FetchCityForecastTask.class.getSimpleName();
+    private final String LOG_TAG = FetchCityWeeklyForecastTask.class.getSimpleName();
 
     private static final int DAYS_FORECAST = 7;
 
-    public FetchCityForecastTask(Context context, CityDetailAdapter cityDetailAdapter, LinearLayout progressBar, ListView listView) {
+    OnTaskCompleteListener taskCompleteListener;
+
+    public FetchCityWeeklyForecastTask(Context context, CityDetailAdapter cityDetailAdapter,
+                                       LinearLayout progressBar, ListView listView,
+                                       OnTaskCompleteListener taskCompleteListener) {
+
         super (context, cityDetailAdapter, progressBar, listView);
+
+        this.taskCompleteListener = taskCompleteListener;
+    }
+
+    @Override
+    protected void onPostExecute(List<Forecast> result) {
+        super.onPostExecute(result);
+
+        taskCompleteListener.OnTaskComplete();
     }
 
     @Override
@@ -97,12 +112,11 @@ public class FetchCityForecastTask extends FetchTask<String, Forecast> {
             JSONObject weatherObject = dayForecast.getJSONArray(JSON_WEATHER).getJSONObject(0);
             String weatherDescription = weatherObject.getString(JSON_DESCRIPTION);
             int weatherId = weatherObject.getInt(JSON_ID);
-
             JSONObject tempObject = dayForecast.getJSONObject(JSON_TEMP);
             double maxTemp = tempObject.getDouble(JSON_MAX);
             double minTemp = tempObject.getDouble(JSON_MIN);
 
-            // Cheating to convert this to UTC time, which is what we want anyhow
+            // Convert to UTC time
             long dateTime = dayTime.setJulianDay(julianStartDay+i);
 
             forecast.add(new Forecast(maxTemp, minTemp, weatherDescription, weatherId, dateTime));

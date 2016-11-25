@@ -12,14 +12,17 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.example.lucas.openweathermap.Adapters.CityDetailAdapter;
 import com.example.lucas.openweathermap.Models.CityInfo;
 import com.example.lucas.openweathermap.Models.Forecast;
+import com.example.lucas.openweathermap.OnTaskCompleteListener;
 import com.example.lucas.openweathermap.R;
-import com.example.lucas.openweathermap.Tasks.FetchCityForecastTask;
+import com.example.lucas.openweathermap.Tasks.FetchCityWeeklyForecastTask;
 import com.example.lucas.openweathermap.Utils.Utils;
 
 import java.util.ArrayList;
@@ -27,7 +30,7 @@ import java.util.ArrayList;
 /**
  * Fragment for the detailed screen of a city forecast
  */
-public class CityDetailFragment extends Fragment {
+public class CityDetailFragment extends Fragment implements OnTaskCompleteListener {
 
     private LinearLayout progressBar;
     private ListView listView;
@@ -36,6 +39,8 @@ public class CityDetailFragment extends Fragment {
     private ArrayList<Forecast> forecast;
     private CityDetailAdapter cityDetailAdapter;
 
+    private ShareActionProvider shareActionProvider;
+
     public CityDetailFragment() {
         setHasOptionsMenu(true);
     }
@@ -43,15 +48,46 @@ public class CityDetailFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
-        View rootView = inflater.inflate(R.layout.fragment_city_detail, container, false);
-
-        progressBar = (LinearLayout) rootView.findViewById(R.id.listview_progressBar);
-
         Intent intent = getActivity().getIntent();
-        if (intent != null && intent.hasExtra(getString(R.string.intent_extra_cityInfo))) {
+        if (intent != null && intent.hasExtra(getString(R.string.intent_extra_cityInfo)))
             cityInfo = intent.getParcelableExtra(getString(R.string.intent_extra_cityInfo));
 
+        if (Utils.isWeeklyForecast(getContext()))
+            return getWeeklyForecastView(inflater, container);
+        else
+            return getSingleDayView(inflater, container);
+    }
+
+    private View getSingleDayView(LayoutInflater inflater, ViewGroup container) {
+        View rootView = inflater.inflate(R.layout.fragment_city_detail_single, container, false);
+
+        if (cityInfo != null) {
+            TextView dateView = (TextView) rootView.findViewById(R.id.detail_single_date_textview);
+            TextView maxTempView = (TextView) rootView.findViewById(R.id.detail_single_maxTemp_textview);
+            TextView minTempView = (TextView) rootView.findViewById(R.id.detail_single_minTemp_textview);
+            ImageView iconView = (ImageView) rootView.findViewById(R.id.detail_single_item_icon);
+            TextView weatherView = (TextView) rootView.findViewById(R.id.detail_single_weather_textview);
+
+            boolean isMetric = Utils.isMetric(getContext());
+
+            Forecast forecast = cityInfo.getForecast();
+
+            dateView.setText(Long.toString(forecast.getDateTime()));
+            maxTempView.setText(Utils.formatTemperature(getActivity(), forecast.getMaxTemp(), isMetric));
+            minTempView.setText(Utils.formatTemperature(getActivity(), forecast.getMinTemp(), isMetric));
+            iconView.setImageResource(Utils.getWeatherArt(forecast.getWeatherId()));
+            weatherView.setText(forecast.getWeather());
+        }
+
+        shareActionProvider.setShareIntent(createShareForecastIntent());
+
+        return rootView;
+    }
+
+    private View getWeeklyForecastView(LayoutInflater inflater, ViewGroup container) {
+        View rootView = inflater.inflate(R.layout.fragment_city_detail_weekly, container, false);
+
+        if (cityInfo != null) {
             forecast = new ArrayList<>();
 
             cityDetailAdapter = new CityDetailAdapter(this.getActivity(), R.layout.list_item_city_detail, forecast);
@@ -60,9 +96,9 @@ public class CityDetailFragment extends Fragment {
             listView.setAdapter(cityDetailAdapter);
         }
 
-        forecast.add(cityInfo.getForecast());
+        progressBar = (LinearLayout) rootView.findViewById(R.id.listview_progressBar);
 
-        fetchWeekForecast();
+        fetchWeeklyForecast();
 
         return rootView;
     }
@@ -73,10 +109,12 @@ public class CityDetailFragment extends Fragment {
 
         MenuItem menuItem = menu.findItem(R.id.action_share);
 
-        ShareActionProvider shareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(menuItem);
+        shareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(menuItem);
+    }
 
-        if (shareActionProvider != null )
-            shareActionProvider.setShareIntent(createShareForecastIntent());
+    @Override
+    public void OnTaskComplete() {
+        shareActionProvider.setShareIntent(createShareForecastIntent());
     }
 
     /**
@@ -90,12 +128,12 @@ public class CityDetailFragment extends Fragment {
 
         String cityName = cityInfo.getName();
 
-        Forecast forecast = cityInfo.getForecast();
+        Forecast forecastToday = forecast.get(0);
 
-        String weather = forecast.getWeather();
+        String weather = forecastToday.getWeather();
         Context context = getContext();
-        String minTemp = Utils.formatTemperature(context, forecast.getMinTemp(), Utils.isMetric(context));
-        String maxTemp = Utils.formatTemperature(context, forecast.getMaxTemp(), Utils.isMetric(context));
+        String minTemp = Utils.formatTemperature(context, forecastToday.getMinTemp(), Utils.isMetric(context));
+        String maxTemp = Utils.formatTemperature(context, forecastToday.getMaxTemp(), Utils.isMetric(context));
 
         String shareString = context.getString(R.string.share_string);
 
@@ -105,8 +143,9 @@ public class CityDetailFragment extends Fragment {
         return shareIntent;
     }
 
-    private void fetchWeekForecast() {
-        FetchCityForecastTask fetchCityForecast = new FetchCityForecastTask(getContext(), cityDetailAdapter, progressBar, listView);
+    private void fetchWeeklyForecast() {
+        FetchCityWeeklyForecastTask fetchCityForecast =
+                new FetchCityWeeklyForecastTask(getContext(), cityDetailAdapter, progressBar, listView, this);
 
         fetchCityForecast.execute(cityInfo.getName());
     }

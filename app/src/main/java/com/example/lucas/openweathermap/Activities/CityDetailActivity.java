@@ -27,7 +27,6 @@ public class CityDetailActivity extends AppCompatActivity {
 
             getSupportActionBar().setTitle(cityInfo.getName());
         }
-
     }
 
 }

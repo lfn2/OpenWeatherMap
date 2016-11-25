@@ -29,8 +29,8 @@
     <string name="title_general_category">General</string>
     <string name="key_general_category">generalPreferences</string>
 
-    <string name="title_preference_unit">Unit</string>
-    <string name="key_preference_unit">unitPreference</string>
+    <string name="preference_title_unit">Unit</string>
+    <string name="preference_key_unit">unitPreference</string>
 
     <string name="unit_metric_title">Metric</string>
     <string name="unit_metric_value">metric</string>
@@ -51,14 +51,17 @@
         <item>@string/unit_imperial_value</item>
     </string-array>
 
-    <string name="string_tomorrow">Tomorrow</string>
-    <string name="string_today">Today</string>
-
     <string name="string_ok">OK</string>
     <string name="string_cancel">Cancel</string>
 
-    <string name="key_preference_citiesCount">citiesCountPreference</string>
-    <string name="title_preference_citiesCount">Number of cities</string>
-    <string name="default_value_preference_citiesCount">15</string>
+    <!--cities count preference-->
+    <string name="preference_key_citiesCount">citiesCountPreference</string>
+    <string name="preference_title_citiesCount">Number of cities</string>
+    <string name="preference_default_citiesCount">15</string>
+
+    <!--weekly forecast preference-->
+    <string name="preference_key_weeklyForecast">weeklyForecastPreference</string>
+    <string name="preference_title_weeklyForecast">Weekly Forecast</string>
+    <string name="preference_summary_weeklyForecast">Fetch a city\'s weekly forecast\n(consumes more broadband)</string>
 
 </resources>
