@@ -2,15 +2,14 @@ package com.example.lucas.openweathermap.Tasks;
 
 import android.content.Context;
 import android.net.Uri;
-import android.text.format.Time;
 import android.util.Log;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.example.lucas.openweathermap.Adapters.CityDetailAdapter;
 import com.example.lucas.openweathermap.BuildConfig;
-import com.example.lucas.openweathermap.Models.Forecast;
 import com.example.lucas.openweathermap.Listeners.OnTaskCompleteListener;
+import com.example.lucas.openweathermap.Models.Forecast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -20,6 +19,9 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 public class FetchCityWeeklyForecastTask extends FetchTask<String, Forecast> {
@@ -28,7 +30,7 @@ public class FetchCityWeeklyForecastTask extends FetchTask<String, Forecast> {
 
     private static final int DAYS_FORECAST = 7;
 
-    OnTaskCompleteListener taskCompleteListener;
+    private OnTaskCompleteListener taskCompleteListener;
 
     public FetchCityWeeklyForecastTask(Context context, CityDetailAdapter cityDetailAdapter,
                                        LinearLayout progressBar, ListView listView,
@@ -101,10 +103,8 @@ public class FetchCityWeeklyForecastTask extends FetchTask<String, Forecast> {
 
         //Here we also "get" the day of the forecast.
         //We start with the current day and increment by one on each forecast
-        Time dayTime = new Time();
-        dayTime.setToNow();
-        int julianStartDay = Time.getJulianDay(System.currentTimeMillis(), dayTime.gmtoff);
-        dayTime = new Time();
+        GregorianCalendar calendar = new GregorianCalendar();
+        Date date = calendar.getTime();
 
         for (int i = 0; i < forecastArray.length(); i++) {
             JSONObject dayForecast = forecastArray.getJSONObject(i);
@@ -118,9 +118,11 @@ public class FetchCityWeeklyForecastTask extends FetchTask<String, Forecast> {
             double minTemp = tempObject.getDouble(JSON_MIN);
 
             // Convert to UTC time
-            long dateTime = dayTime.setJulianDay(julianStartDay + i);
+            long dateTime = calendar.getTime().getTime();
 
             forecast.add(new Forecast(maxTemp, minTemp, weatherDescription, weatherId, dateTime));
+
+            calendar.add(Calendar.DAY_OF_WEEK, 1);
         }
 
         return forecast;

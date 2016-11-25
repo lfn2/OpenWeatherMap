@@ -2,7 +2,6 @@ package com.example.lucas.openweathermap.Tasks;
 
 import android.content.Context;
 import android.net.Uri;
-import android.text.format.Time;
 import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
@@ -22,6 +21,8 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 /**
@@ -44,9 +45,9 @@ public class FetchCitiesTask extends FetchTask<LatLng, CityInfo> {
         String citiesForecastJSON = null;
 
         try {
-            URL queryURL = createQueryURL(latitude, longitude);
+            URL url = createQueryURL(latitude, longitude);
 
-            connection = createConnection(queryURL);
+            connection = createConnection(url);
 
             citiesForecastJSON = readJSON(connection);
         } catch (Exception e) {
@@ -99,12 +100,10 @@ public class FetchCitiesTask extends FetchTask<LatLng, CityInfo> {
             double maxTemp = tempObject.getDouble(JSON_MAX);
             double minTemp = tempObject.getDouble(JSON_MIN);
 
-            Time time = new Time();
-            time.setToNow();
-            int julianDay = Time.getJulianDay(System.currentTimeMillis(), time.gmtoff);
-            long dateTime = time.setJulianDay(julianDay);
+            GregorianCalendar calendar = new GregorianCalendar();
+            Date date = calendar.getTime();
 
-            Forecast forecast = new Forecast(maxTemp, minTemp, weatherDescription, weatherId, dateTime);
+            Forecast forecast = new Forecast(maxTemp, minTemp, weatherDescription, weatherId, date.getTime());
 
             citiesInfo.add(new CityInfo(name, temp, forecast));
         }
