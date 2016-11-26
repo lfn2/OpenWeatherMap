@@ -45,7 +45,8 @@ public class FetchCityWeeklyForecastTask extends FetchTask<String, Forecast> {
     protected void onPostExecute(List<Forecast> result) {
         super.onPostExecute(result);
 
-        this.taskCompleteListener.OnTaskComplete();
+        if (result != null && result.size() > 0)
+            this.taskCompleteListener.OnTaskComplete();
     }
 
     @Override
